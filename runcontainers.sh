@@ -4,14 +4,10 @@ docker network create pg_net
 echo Stopping
 docker stop application
 docker stop postgresql
-docker stop db
-docker stop shell
 
 echo deleting
 docker rm application
 docker rm postgresql
-docker rm db
-docker rm shell
 
 echo running postgres
 docker run --name postgresql --net pg_net -p 65432:5432 -d \
