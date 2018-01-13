@@ -3,11 +3,21 @@
 $Page = ['Contents' => '', 'Footer' => '', 'Heading' => '',
     'Count' => '', 'Speech' => '', 'TopBanner' => ''];
 
-$dbuser = "multidateuser";
+$dbuser = "mduser";
 $dbhost = "localhost";
-$dbpass = "multidatepass";
+$dbpass = "mdpass";
+$host = "postgresql";
+$db = "multidate";
+$port = "5432";
 
-$dbh = pg_connect("host=127.0.0.1 port=5432 dbname=multidate user=$dbuser password=$dbpass");
+$dbh = pg_connect("host=$host port=$port dbname=$db user=$dbuser password=$dbpass");
+
+global $Query;
+
+if (!isset($Query)) {
+    include "Query.php";
+    $Query = new Query();
+}
 
 function query($query, $DIE = TRUE)
 {
@@ -66,7 +76,7 @@ function pes($s)
 
 function getvar($varname)
 {
-    $row = query_row("select value from variables where name='$varname'", FALSE);
+    $row = @query_row("select value from variables where name='$varname'", FALSE);
     if ($row === FALSE) {
         return FALSE;
     }
