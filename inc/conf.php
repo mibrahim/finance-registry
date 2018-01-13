@@ -96,15 +96,3 @@ if ($dbver === FALSE) {
 if ($dbver != $sysversion) {
     include "$webdir/inc/upgrade.php";
 }
-
-function showArticles($articleIds)
-{
-    $html = '';
-    foreach ($articleIds as $key => $value) {
-        $arow = query_row("select * from content where cid=$value");
-        if ($arow != null) {
-            $html .= "<a href='$arow[url]'>$arow[title]</a><br/>";
-        }
-    }
-    return $html;
-}
