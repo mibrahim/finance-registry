@@ -3,11 +3,11 @@
 $Page = ['Contents' => '', 'Footer' => '', 'Heading' => '',
     'Count' => '', 'Speech' => '', 'TopBanner' => ''];
 
-$dbuser = "mduser";
-$dbhost = "localhost";
-$dbpass = "mdpass";
-$host = "postgresql";
-$db = "multidate";
+$dbuser = "md";
+$dbhost = "mdpsql";
+$dbpass = "psql1234";
+$host = "mdpsql";
+$db = "mddb";
 $port = "5432";
 
 $dbh = pg_connect("host=$host port=$port dbname=$db user=$dbuser password=$dbpass");

@@ -27,7 +27,10 @@
             <a class="pure-menu-heading" href="/">MULTIDATE</a>
             <ul class="pure-menu-list">
                 <li class="pure-menu-item">
-                    <a href="/start/" class="pure-menu-link pure-menu-selected">Date Types</a>
+                    <a href="/datetypes.php" class="pure-menu-link pure-menu-selected">Date Types</a>
+                </li>
+                <li class="pure-menu-item">
+                    <a href="/entities.php" class="pure-menu-link pure-menu-selected">Entities</a>
                 </li>
                 <li class="pure-menu-item">
                     <a href="/layouts/" class="pure-menu-link">Account Groups</a>
@@ -44,12 +47,16 @@
 
     <div id="main">
         <div class="header">
-            <h1>Page Title</h1>
-            <h2>A subtitle for your page goes here</h2>
+            <h1><?php echo $Page['title']; ?></h1>
+            <h2><?php echo $Page['sub_title']; ?></h2>
         </div>
 
         <div class="content">
-            <h2 class="content-subhead">How to use this layout</h2>
+            <h2 class="content-subhead"><?php echo $Page['sub_head']; ?></h2>
+
+            <?php echo $Page['contents'] ?>
+
+            <!--
             <p>
                 To use this layout, you can just copy paste the HTML, along with the CSS in <a
                         href="/css/layouts/side-menu.css" alt="Side Menu CSS">side-menu.css</a>, and the JavaScript in
@@ -93,6 +100,7 @@
                 fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia
                 deserunt mollit anim id est laborum.
             </p>
+            -->
         </div>
     </div>
 </div>
