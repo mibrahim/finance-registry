@@ -15,6 +15,9 @@
 
     <link rel="stylesheet" href="/templates/side-menu.css">
     <script src="//code.jquery.com/jquery-3.2.1.min.js"></script>
+    <script src="/inc/jscripts.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 </head>
 <body>
 
@@ -36,10 +39,10 @@
                     <a href="/entities.php" class="pure-menu-link pure-menu-selected">Entities</a>
                 </li>
                 <li class="pure-menu-item">
-                    <a href="/layouts/" class="pure-menu-link">Account Groups</a>
+                    <a href="/accountsgroups.php" class="pure-menu-link">Account Groups</a>
                 </li>
                 <li class="pure-menu-item">
-                    <a href="/grids/" class="pure-menu-link">Accounts</a>
+                    <a href="/charterofaccounts.php" class="pure-menu-link">Charter of Accounts</a>
                 </li>
                 <li class="pure-menu-item menu-item-divided">
                     <a href="/base/" class="pure-menu-link">Cash Flow</a>

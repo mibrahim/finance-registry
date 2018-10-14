@@ -16,8 +16,8 @@ if ($highestversion < "0001") {
     query("CREATE TABLE account_groups(id SERIAL PRIMARY KEY, name TEXT, description TEXT, parent_id BIGINT REFERENCES account_groups)");
     query("INSERT INTO account_groups(name, description) VALUES ('income','Income accounts')");
     query("INSERT INTO account_groups(name, description) VALUES ('expenses','Expenses accounts')");
-    query("INSERT INTO account_groups(name, description) VALUES ('checking','Checking accounts')");
-    query("INSERT INTO account_groups(name, description) VALUES ('saving','Saving accounts')");
+    query("INSERT INTO account_groups(name, description) VALUES ('Bank accounts','Bank accounts')");
+    query("INSERT INTO account_groups(name, description) VALUES ('Credit cards / Loans','Credit cards and loans')");
 
     query("CREATE TABLE entity(id SERIAL PRIMARY KEY, name TEXT, description TEXT)");
 
