@@ -36,10 +36,13 @@
                     <a href="/datetypes.php" class="pure-menu-link pure-menu-selected">Date Types</a>
                 </li>
                 <li class="pure-menu-item">
-                    <a href="/entities.php" class="pure-menu-link pure-menu-selected">Entities</a>
+                    <a href="/accountsgroups.php" class="pure-menu-link">Account Groups</a>
                 </li>
                 <li class="pure-menu-item">
-                    <a href="/accountsgroups.php" class="pure-menu-link">Account Groups</a>
+                    <hr/>
+                </li>
+                <li class="pure-menu-item">
+                    <a href="/entities.php" class="pure-menu-link pure-menu-selected">Entities</a>
                 </li>
                 <li class="pure-menu-item">
                     <a href="/charterofaccounts.php" class="pure-menu-link">Charter of Accounts</a>

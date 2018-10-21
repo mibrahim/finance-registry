@@ -1,60 +1,59 @@
 <?php
 require_once dirname(__FILE__) . "/inc/conf.php";
 
-$todo = filter_input(INPUT_POST, 'todo');
+$Page['title'] = "Charter of accounts";
 
-if ($todo == 'addsubgroup') {
-    $parentId = filter_input(INPUT_POST, 'parentid');
-    $accountName = pe(filter_input(INPUT_POST, 'name'));
+$entity = filter_input(INPUT_GET, 'entity');
 
-    query("insert into account_groups(parent_id, name) values ($parentId,'$accountName')");
-}
+if ($entity == null) {
+    $Page['contents'] .= "<h1 style='color:#F44;'>ERROR: Click on an entity from the <a href='entities.php'>entities</a></h1>";
+} else {
 
-function addAccountRow($indent, $row, &$Page)
-{
-    $space = "";
-    for ($i = 0; $i < $indent; $i++) $space .= "&nbsp;&nbsp;";
+    $entityRow = query_row("select * from entity where id = $entity");
+    $Page['sub_title'] = "Entity: " . htmlentities($entityRow['name']);
 
-    $nameEscaped = htmlentities($row['name']);
-    $Page['contents'] .= "<tr>
-<td>$space $row[name]&nbsp;&nbsp;</td>
-<td>$row[description]&nbsp;&nbsp;</td>
-<td style='text-align: center;'>
+    // Favorite
+    $favorite = filter_input(INPUT_GET, 'favorite');
 
-<span title='Add a subgroup' onclick='addSubAccountGroup($row[id], \"$nameEscaped\")' style='cursor: pointer;'>
-<i class='fas fa-plus-square'></i>
-</span>
+    if ($favorite != null) {
+        $row = query_row("select * from accounts where id=$favorite");
 
-</td>
-</tr>";
-}
+        $is_favorite = 0;
+        if ($row['is_favorite'] != null) $is_favorite = 1 - $is_favorite;
+        else $is_favorite = 1;
 
-function listAccounts($parentId, $indent, &$Page)
-{
-    $parentIdString = " is null";
-    if ($parentId != null) $parentIdString = "=$parentId";
+        query_row("update account set is_favorite=$is_favorite where id=$favorite");
+    }
 
-    $entityRes = query("select * from account_groups where parent_id$parentIdString order by id");
-    while ($row = fetch_array($entityRes)) {
-        addAccountRow($indent, $row, $Page);
-        // Look for subacounts
-        $count = query_row("select count(*) from account_groups where parent_id=$row[id]");
-        if ($count['count'] > 0) {
-            listAccounts($row['id'], $indent + 1, $Page);
+    $todo = filter_input(INPUT_POST, 'todo');
+    if ($todo == 'addaccount') {
+    }
+
+    $Page['contents'] .= "<h2>Add an account <button onclick='addAccount($entity)'><i class=\"fas fa-plus-square\"></i></button> </h2>";
+
+    function listAccounts($res, &$Page)
+    {
+        $Page['contents'] .= "<table>";
+        while ($row = fetch_array($res)) {
+            $Page['contents'] .= "<tr>";
+            $Page['contents'] .= "<td><a href='register.php?id=$row[id]'>" . htmlentities($row['name']) . "</a></td>";
+            $favStyle = "color: #888";
+            if ($row['is_favorite'] == 1)
+                $favStyle = "color: #F88";
+            $Page['contents'] .= "<td><a href='?favorite=$row[id]'><i style='$favStyle' class=\"fas fa-heart\"></i></a></td>";
+            $Page['contents'] .= "</tr>";
         }
     }
+
+    $Page['contents'] .= "<h1><i class=\"fas fa-heart\"></i> Favorite accounts</h1>";
+
+    $res = query("select * from account where is_favorite = 1 order by name");
+    listAccounts($res, $Page);
+
+    $Page['contents'] .= "<h1><i class=\"fas fa-university\"></i> All accounts</h1>";
+
+    $res = query("select * from account order by name");
+    listAccounts($res, $Page);
 }
-
-$Page['contents'] .= "<table><tr style='background-color:#000;color:#fff;font-weight: bold;'>
-<td style='min-width: 100px; text-align: center;'>Name</td>
-<td style='min-width: 100px; text-align: center;'>Description</td>
-<td style='min-width: 100px; text-align: center;'>Operations</td>
-</tr>";
-
-listAccounts(null, 0, $Page);
-
-$Page['contents'] .= "</table>";
-
-$Page['title'] = "Account groups";
 
 include dirname(__FILE__) . "/templates/responsive.php";

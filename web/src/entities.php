@@ -25,7 +25,7 @@ $Page['contents'] .= "<table><tr style='background-color:#000;color:#fff;font-we
 
 $entityRes = query("select * from entity");
 while ($row = fetch_array($entityRes)) {
-    $Page['contents'] .= "<tr><td>$row[name]</td><td>$row[description]</td></tr>";
+    $Page['contents'] .= "<tr><td><a href='charterofaccounts.php?entity=$row[id]'>$row[name]</a></td><td>$row[description]</td></tr>";
 }
 $Page['contents'] .= "</table>";
 

@@ -22,8 +22,9 @@ if ($highestversion < "0001") {
     query("CREATE TABLE entity(id SERIAL PRIMARY KEY, name TEXT, description TEXT)");
 
     query("CREATE TABLE account(id SERIAL PRIMARY KEY, name TEXT, description TEXT,
-                                  parent_id BIGINT REFERENCES account_groups,
-                                  entity_id BIGINT REFERENCES entity
+                                  group_id BIGINT REFERENCES account_groups,
+                                  entity_id BIGINT REFERENCES entity,
+                                  is_favorite int
                                   )");
 
     query("CREATE TABLE transaction( id SERIAL PRIMARY KEY,

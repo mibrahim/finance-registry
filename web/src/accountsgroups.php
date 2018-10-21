@@ -10,7 +10,7 @@ if ($todo == 'addsubgroup') {
     query("insert into account_groups(parent_id, name) values ($parentId,'$accountName')");
 }
 
-function addAccountRow($indent, $row, &$Page)
+function addAccountGroupRow($indent, $row, &$Page)
 {
     $space = "";
     for ($i = 0; $i < $indent; $i++) $space .= "&nbsp;&nbsp;";
@@ -36,7 +36,7 @@ function listAccounts($parentId, $indent, &$Page)
 
     $entityRes = query("select * from account_groups where parent_id$parentIdString order by id");
     while ($row = fetch_array($entityRes)) {
-        addAccountRow($indent, $row, $Page);
+        addAccountGroupRow($indent, $row, $Page);
         // Look for subacounts
         $count = query_row("select count(*) from account_groups where parent_id=$row[id]");
         if ($count['count'] > 0) {

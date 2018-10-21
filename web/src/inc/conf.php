@@ -1,7 +1,9 @@
 <?php
 
-$Page = ['Contents' => '', 'Footer' => '', 'Heading' => '',
-    'Count' => '', 'Speech' => '', 'TopBanner' => ''];
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
+
+$Page = ['contents' => '', 'title' => '', 'sub_title' => '', 'sub_head' => ''];
 
 $dbuser = "md";
 $dbhost = "mdpsql";
