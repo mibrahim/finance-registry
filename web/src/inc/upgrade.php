@@ -14,9 +14,22 @@ if ($highestversion < "0001") {
     query("INSERT INTO date_type(name, description) VALUES ('plan','Date used for planning')");
 
     query("CREATE TABLE account_groups(id SERIAL PRIMARY KEY, name TEXT, description TEXT, parent_id BIGINT REFERENCES account_groups)");
-    query("INSERT INTO account_groups(name, description) VALUES ('income','Income accounts')");
-    query("INSERT INTO account_groups(name, description) VALUES ('expenses','Expenses accounts')");
-    query("INSERT INTO account_groups(name, description) VALUES ('Bank accounts','Bank accounts')");
+    query("INSERT INTO account_groups(name, description) VALUES ('Income','Income accounts')"); // 1
+    query("INSERT INTO account_groups(name, description, parent_id) VALUES ('Salaries','Collected salaries',1)"); // 2
+    query("INSERT INTO account_groups(name, description, parent_id) VALUES ('Commissions','Collected commissions',1)"); // 3
+    query("INSERT INTO account_groups(name, description, parent_id) VALUES ('Dividends/Payouts','Corporate dividends and payouts',1)"); // 4
+
+    query("INSERT INTO account_groups(name, description) VALUES ('Expenses','Expenses accounts')"); // 5
+    query("INSERT INTO account_groups(name, description, parent_id) VALUES ('Car/Auto','Expenses related to cars', 5)"); // 6
+    query("INSERT INTO account_groups(name, description, parent_id) VALUES ('Utilities','Utilities', 5)"); // 7
+    query("INSERT INTO account_groups(name, description, parent_id) VALUES ('Mortgages/Rents','Mortgages and rents',5)"); // 8
+    query("INSERT INTO account_groups(name, description, parent_id) VALUES ('Education','Education',5)"); // 9
+    query("INSERT INTO account_groups(name, description, parent_id) VALUES ('Loans/Credit cards','Loans and credit cards',5)"); // 10
+
+    query("INSERT INTO account_groups(name, description) VALUES ('Bank accounts','Bank accounts')"); // 11
+    query("INSERT INTO account_groups(name, description, parent_id) VALUES ('Checking','Checking accounts', 11)"); // 10
+    query("INSERT INTO account_groups(name, description, parent_id) VALUES ('Savings','Savings accounts', 11)"); // 10
+
     query("INSERT INTO account_groups(name, description) VALUES ('Credit cards / Loans','Credit cards and loans')");
 
     query("CREATE TABLE entity(id SERIAL PRIMARY KEY, name TEXT, description TEXT)");

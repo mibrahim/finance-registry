@@ -14,7 +14,7 @@ function addSubAccountGroup(parentAccountId, nameEscaped) {
     });  //end confirm dialog
 }
 
-function addAccount($entityId) {
+function addAccount() {
     // Get the account groups
     $.ajax({
         url: "/apis/getaccountgroups.php",
@@ -42,11 +42,24 @@ function addAccount($entityId) {
                         '<tr><td><b>Description</b></td><td> <input type="text" name="description"/></td></tr>' +
                         '<tr><td colspan="2"><br/><b>Account Group:</b><br/><br/>' +
                         radioButtons +
-                        '</td></tr></table>'
-                        '</form>';
+                        '</td></tr>' +
+                        '<tr><td colspan="2" style="text-align: center;"><input type="submit" value="Add Account"/></td></tr>' +
+                        '</table>'
+                    '</form>';
                     $(this).html(markup);
                 },
             });  //end confirm dialog
         }
+    });
+}
+
+function favorite(accountId) {
+    let ajaxURL = "/apis/favorite.php?favorite=" + accountId;
+    $.ajax({
+        url: ajaxURL,
+    }).done(function (data) {
+        console.log(ajaxURL);
+        console.log(data);
+        location.reload();
     });
 }

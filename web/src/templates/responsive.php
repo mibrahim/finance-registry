@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description"
           content="A layout example with a side menu that hides on mobile, just like the Pure website.">
-    <title><?php echo $Page['Title'] ?></title>
+    <title><?php echo $Page['title'] ?></title>
 
     <link rel="stylesheet" href="//unpkg.com/purecss@1.0.0/build/pure-min.css"
           integrity="sha384-nn4HPE8lTHyVtfCBi5yW9d20FjT8BJwUXyWZT9InLYax14RDjBj46LmSztkmNP9w" crossorigin="anonymous">
