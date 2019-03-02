@@ -7,6 +7,8 @@ if ($highestversion < "0001") {
     // Upgrade to version 0001
     query("BEGIN TRANSACTION");
 
+	query("CREATE TABLE variables(name text, value text)");
+
 	query("CREATE TABLE txns(
 			key INTEGER PRIMARY KEY AUTOINCREMENT, 
 			account text, 

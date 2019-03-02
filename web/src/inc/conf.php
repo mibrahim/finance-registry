@@ -43,7 +43,7 @@ function query_row($query, $DIE = TRUE)
 {
     $res = query($query, $DIE);
 
-    if (!$res) {
+    if ($res === FALSE) {
         return FALSE;
     }
 
@@ -84,9 +84,11 @@ function setvar($varname, $value)
 // Check the db version
 $sysversion = "0001";
 $dbver = getvar("sysversion");
+echo "dbver = $dbver";
 if ($dbver === FALSE) {
     $dbver = "0000";
 }
+echo "dbver = $dbver";
 
 if ($dbver != $sysversion) {
     include "$webdir/inc/upgrade.php";
