@@ -7,4 +7,3 @@ case "${unameOut}" in
     MINGW*)     SUDO="";;
 esac
 ${SUDO} docker stop `./containerid.sh`
-${SUDO} docker stop mdpsql

@@ -5,5 +5,5 @@ case "${unameOut}" in
     CYGWIN*)    SUDO="";;
     MINGW*)     SUDO="";;
 esac
-$SUDO docker ps | grep mdimage | cut -d\  -f1
+$SUDO docker ps | grep multidate | cut -d\  -f1
 

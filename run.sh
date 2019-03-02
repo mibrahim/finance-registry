@@ -10,10 +10,6 @@ case "${uNameOut}" in
         ;;
 esac
 
-${SUDO} docker start mdpsql
-${SUDO} docker start mdcontainer
-
-ID=`./containerid.sh`
-${SUDO} docker exec ${ID} /etc/init.d/apache2 start
-${SUDO} docker exec ${ID} /etc/init.d/postgresql start
-${SUDO} docker exec ${ID} /etc/init.d/ssh start
+./stop.sh
+${SUDO} docker rm --force multidate-app
+${SUDO} docker run -d -p 80:80 --name multidate-app -v "$PWD/web/src/":/var/www/html php:7.2-apache

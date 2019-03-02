@@ -1,35 +1,28 @@
 <?php
+$webdir = str_replace("inc/conf.php", "", __FILE__);
 
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
 $Page = ['contents' => '', 'title' => '', 'sub_title' => '', 'sub_head' => ''];
 
-$dbuser = "md";
-$dbhost = "mdpsql";
-$dbpass = "psql1234";
-$host = "mdpsql";
-$db = "mddb";
-$port = "5432";
-
-$dbh = pg_connect("host=$host port=$port dbname=$db user=$dbuser password=$dbpass");
-
-global $Query;
-
-if (!isset($Query)) {
-    include "Query.php";
-    $Query = new Query();
+class MyDB extends SQLite3
+{
+    function __construct()
+    {
+		global $webdir;
+		echo $webdir;
+        $this->open($webdir.'/.db/mysqlitedb.db', SQLITE3_OPEN_READWRITE | SQLITE3_OPEN_CREATE);
+    }
 }
+
+$db = new MyDB();
 
 function query($query, $DIE = TRUE)
 {
-    global $Query;
+	global $db;
 
-    if ($DIE == FALSE) {
-        $result = $Query->query($query);
-    } else {
-        $result = $Query->query($query);
-    }
+	$result = $db->exec($query);
 
     if ($result) {
         return $result;
@@ -40,19 +33,10 @@ function query($query, $DIE = TRUE)
         http_response_code(500);
         echo "<pre>";
         print_r(debug_backtrace());
-        die("PgSQL ERROR: " . pg_last_error() . " SQL is: " . $query);
+        die("SQLite ERROR: " . $db->lastErrorMsg() . " SQL is: " . $query);
     } else {
         return false;
     }
-}
-
-function fetch_array($res)
-{
-    global $Query;
-
-    $result = $Query->fetchArray($res);
-
-    return $result;
 }
 
 function query_row($query, $DIE = TRUE)
@@ -63,17 +47,19 @@ function query_row($query, $DIE = TRUE)
         return FALSE;
     }
 
-    return fetch_array($res);
+    return $res->fetchArray();
 }
 
-function pe($s)
+function se($s)
 {
-    return pg_escape_string($s);
+	global $db;
+    return $db->escapeString($s);
 }
 
-function pes($s)
+function ses($s)
 {
-    return pg_escape_string(stripslashes($s));
+	global $db;
+    return se(stripslashes($s));
 }
 
 function getvar($varname)
@@ -94,9 +80,6 @@ function setvar($varname, $value)
         query("update variables set value='$value' where name='$varname'", FALSE);
     }
 }
-
-// Generic global variables
-$webdir = str_replace("inc/conf.php", "", __FILE__);
 
 // Check the db version
 $sysversion = "0001";

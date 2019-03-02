@@ -1,3 +1,4 @@
 *.swp
 pgdata
 .idea
+mysqlitedb.db
