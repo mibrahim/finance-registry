@@ -6,25 +6,15 @@ ini_set('display_errors', 1);
 
 $Page = ['contents' => '', 'title' => '', 'sub_title' => '', 'sub_head' => ''];
 
-class MyDB extends SQLite3
-{
-    function __construct()
-    {
-		global $webdir;
-		echo $webdir;
-        $this->open($webdir.'/.db/mysqlitedb.db', SQLITE3_OPEN_READWRITE | SQLITE3_OPEN_CREATE);
-    }
-}
-
-$db = new MyDB();
+$db = new SQLite3($webdir.'/.db/mysqlitedb.db', SQLITE3_OPEN_READWRITE | SQLITE3_OPEN_CREATE);
 
 function query($query, $DIE = TRUE)
 {
 	global $db;
 
-	$result = $db->exec($query);
+	$result = $db->query($query);
 
-    if ($result) {
+	if ($result) {
         return $result;
     } else if ($DIE) {
         header('Content-language: en');
