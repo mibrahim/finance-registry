@@ -6,15 +6,22 @@ ini_set('display_errors', 1);
 
 $Page = ['contents' => '', 'title' => '', 'sub_title' => '', 'sub_head' => ''];
 
-$db = new SQLite3($webdir.'/.db/mysqlitedb.db', SQLITE3_OPEN_READWRITE | SQLITE3_OPEN_CREATE);
+$dbPath = $webdir . '.db/mysqlitedb.db';
+
+try {
+    $db = new SQLite3($dbPath, SQLITE3_OPEN_READWRITE | SQLITE3_OPEN_CREATE);
+} catch (Exception $e) {
+    echo "DB Path is: $dbPath<br/>";
+    die($e);
+}
 
 function query($query, $DIE = TRUE)
 {
-	global $db;
+    global $db;
 
-	$result = $db->query($query);
+    $result = $db->query($query);
 
-	if ($result) {
+    if ($result) {
         return $result;
     } else if ($DIE) {
         header('Content-language: en');
@@ -42,13 +49,13 @@ function query_row($query, $DIE = TRUE)
 
 function se($s)
 {
-	global $db;
+    global $db;
     return $db->escapeString($s);
 }
 
 function ses($s)
 {
-	global $db;
+    global $db;
     return se(stripslashes($s));
 }
 
