@@ -1,10 +1,13 @@
 <?php
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
+
 $webdir = str_replace("inc/conf.php", "", __FILE__);
 
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
-$Page = ['contents' => '', 'title' => '', 'sub_title' => '', 'sub_head' => ''];
+$Page = ['contents' => '', 'title' => '', 'sub_title' => ''];
 
 $dbPath = $webdir . '.db/mysqlitedb.db';
 
@@ -44,7 +47,7 @@ function query_row($query, $DIE = TRUE)
         return FALSE;
     }
 
-    return $res->fetchArray();
+    return $res->fetchArray(SQLITE3_ASSOC);
 }
 
 function se($s)
@@ -81,11 +84,9 @@ function setvar($varname, $value)
 // Check the db version
 $sysversion = "0001";
 $dbver = getvar("sysversion");
-echo "dbver = $dbver";
 if ($dbver === FALSE) {
     $dbver = "0000";
 }
-echo "dbver = $dbver";
 
 if ($dbver != $sysversion) {
     include "$webdir/inc/upgrade.php";

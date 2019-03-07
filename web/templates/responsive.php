@@ -1,121 +1,35 @@
 <!doctype html>
 <html lang="en">
 <head>
+    <!-- Required meta tags -->
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description"
-          content="A layout example with a side menu that hides on mobile, just like the Pure website.">
-    <title><?php echo $Page['title'] ?></title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-    <link rel="stylesheet" href="//unpkg.com/purecss@1.0.0/build/pure-min.css"
-          integrity="sha384-nn4HPE8lTHyVtfCBi5yW9d20FjT8BJwUXyWZT9InLYax14RDjBj46LmSztkmNP9w" crossorigin="anonymous">
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css"
+          integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
 
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css"
-          integrity="sha384-5sAR7xN1Nv6T6+dT2mhtzEpVJvfS3NScPQTrOxhwjIuvcA67KV2R5Jz6kr4abQsz" crossorigin="anonymous">
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"
+            crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+            integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+            crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+            integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+            crossorigin="anonymous"></script>
 
-    <link rel="stylesheet" href="/templates/side-menu.css">
-    <script src="//code.jquery.com/jquery-3.2.1.min.js"></script>
+    <link rel="stylesheet" href="/inc/custom.css">
+
     <script src="/inc/jscripts.js"></script>
-    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
-    <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <title><?php echo $Page['title'] ?></title>
 </head>
 <body>
-
-<div id="layout">
-    <!-- Menu toggle -->
-    <a href="#menu" id="menuLink" class="menu-link">
-        <!-- Hamburger icon -->
-        <span></span>
-    </a>
-
-    <div id="menu">
-        <div class="pure-menu">
-            <a class="pure-menu-heading" href="/">MULTIDATE</a>
-            <ul class="pure-menu-list">
-                <li class="pure-menu-item">
-                    <a href="/datetypes.php" class="pure-menu-link pure-menu-selected">Date Types</a>
-                </li>
-                <li class="pure-menu-item">
-                    <a href="/accountsgroups.php" class="pure-menu-link">Account Groups</a>
-                </li>
-                <li class="pure-menu-item">
-                    <hr/>
-                </li>
-                <li class="pure-menu-item">
-                    <a href="/entities.php" class="pure-menu-link pure-menu-selected">Entities</a>
-                </li>
-                <li class="pure-menu-item">
-                    <a href="/charterofaccounts.php" class="pure-menu-link">Charter of Accounts</a>
-                </li>
-                <li class="pure-menu-item menu-item-divided">
-                    <a href="/base/" class="pure-menu-link">Cash Flow</a>
-                </li>
-            </ul>
-        </div>
-    </div>
-
-    <div id="main">
-        <div class="header">
-            <h1><?php echo $Page['title']; ?></h1>
-            <h2><?php echo $Page['sub_title']; ?></h2>
-        </div>
-
-        <div class="content">
-            <h2 class="content-subhead"><?php echo $Page['sub_head']; ?></h2>
-
-            <?php echo $Page['contents'] ?>
-
-            <!--
-            <p>
-                To use this layout, you can just copy paste the HTML, along with the CSS in <a
-                        href="/css/layouts/side-menu.css" alt="Side Menu CSS">side-menu.css</a>, and the JavaScript in
-                <a href="/js/ui.js">ui.js</a>. The JS file uses vanilla JavaScript to simply toggle an
-                <code>active</code> class that makes the menu responsive.
-            </p>
-
-            <h2 class="content-subhead">Now Let's Speak Some Latin</h2>
-            <p>
-                Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et
-                dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip
-                ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu
-                fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia
-                deserunt mollit anim id est laborum.
-            </p>
-
-            <div class="pure-g">
-                <div class="pure-u-1-4">
-                    <img class="pure-img-responsive" src="http://farm3.staticflickr.com/2875/9069037713_1752f5daeb.jpg"
-                         alt="Peyto Lake">
-                </div>
-                <div class="pure-u-1-4">
-                    <img class="pure-img-responsive" src="http://farm3.staticflickr.com/2813/9069585985_80da8db54f.jpg"
-                         alt="Train">
-                </div>
-                <div class="pure-u-1-4">
-                    <img class="pure-img-responsive" src="http://farm6.staticflickr.com/5456/9121446012_c1640e42d0.jpg"
-                         alt="T-Shirt Store">
-                </div>
-                <div class="pure-u-1-4">
-                    <img class="pure-img-responsive" src="http://farm8.staticflickr.com/7357/9086701425_fda3024927.jpg"
-                         alt="Mountain">
-                </div>
-            </div>
-
-            <h2 class="content-subhead">Try Resizing your Browser</h2>
-            <p>
-                Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et
-                dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip
-                ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu
-                fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia
-                deserunt mollit anim id est laborum.
-            </p>
-            -->
-        </div>
-    </div>
-</div>
-
-
-<script src="/templates/ui.js"></script>
+<div id="idk"></div>
+<?php echo $Page['contents'] ?>
 
 </body>
 </html>

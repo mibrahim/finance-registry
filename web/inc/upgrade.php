@@ -14,6 +14,7 @@ if ($highestversion < "0001") {
 			account text, 
 			entity text, 
 			status text, 
+			description text,
 			target text, 
 			amount real, 
 			running_balance real, 
@@ -25,7 +26,9 @@ if ($highestversion < "0001") {
 
     query("CREATE INDEX idx_date on txns(date)");
     query("CREATE INDEX idx_ord on txns(date, ord, entity, account)");
-    query("CREATE INDEX idx_ent on txns(entity, account)");
+    query("CREATE INDEX idx_ent on txns(entity)");
+    query("CREATE INDEX idx_account on txns(account)");
+    query("CREATE INDEX idx_ent_account on txns(entity, account)");
 
     query("COMMIT");
 
