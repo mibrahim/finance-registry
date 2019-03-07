@@ -1,6 +1,6 @@
 function fill(key) {
     $.ajax({
-        url: "/inc/getrow.php?q=" + key,
+        url: "inc/getrow.php?q=" + key,
         cache: false
     }).done(function (data) {
         var obj = JSON.parse(data);
