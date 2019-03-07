@@ -16,7 +16,7 @@ if ($todo == 'addtxn') {
     $newAccount = strtoupper(trim(filter_input(INPUT_POST, "account")));
     $newStatus = strtoupper(trim(filter_input(INPUT_POST, "status")));
     $newTarget = strtoupper(trim(filter_input(INPUT_POST, "target")));
-    $newDescription = strtoupper(trim(filter_input(INPUT_POST, "description")));
+    $newDescription = (trim(filter_input(INPUT_POST, "description")));
     $newAmount = trim(filter_input(INPUT_POST, "amount"));
     $newDate = trim(filter_input(INPUT_POST, "date"));
     $newNotes = trim(filter_input(INPUT_POST, "notes"));
@@ -56,7 +56,7 @@ if ($todo == 'updatetxn') {
     $newAccount = strtoupper(trim(filter_input(INPUT_POST, "account")));
     $newStatus = strtoupper(trim(filter_input(INPUT_POST, "status")));
     $newTarget = strtoupper(trim(filter_input(INPUT_POST, "target")));
-    $newDescription = strtoupper(trim(filter_input(INPUT_POST, "description")));
+    $newDescription = (trim(filter_input(INPUT_POST, "description")));
     $newAmount = trim(filter_input(INPUT_POST, "amount"));
     $newDate = trim(filter_input(INPUT_POST, "date"));
     $newOrd = trim(filter_input(INPUT_POST, "ord"));
@@ -178,7 +178,7 @@ $Page['contents'] .= '
             
             <b>Amount:</b> <input class="form-control" type="text" name="amount">
 
-            <b>Description:</b> <input  id="frmdescription" class="form-control" type="text" name="description">
+            <b>Description:</b> <input class="form-control" type="text" name="description">
 
             <b>Date:</b> <input class="form-control" type="date" name="date">
 
@@ -243,7 +243,7 @@ $Page['contents'] .= '
             
             <b>Amount:</b> <input id="frmamount" class="form-control" type="text" name="amount">
 
-            <b>Description:</b> <input  id="frmdescription" class="form-control" type="text" name="description">
+            <b>Description:</b> <input id="frmdescription" class="form-control" type="text" name="description">
 
             <b>Date:</b> <input  id="frmdate" class="form-control" type="date" name="date">
 
@@ -282,7 +282,7 @@ $Page['contents'] .= "
                 <option>$allAccountsOptions</option>
             </datalist>
             
-            <input type='submit'>                    
+            <input class='btn btn-primary' type='submit'>                    
 </form>
 ";
 
@@ -293,6 +293,7 @@ $Page['contents'] .= '
 <thead>
     <tr class="thead-dark">
         <th>DEL</th>
+        <th>Key</th>
         <th>Date</th>
         <th>ORDER</th>';
 
@@ -316,19 +317,31 @@ $Page['contents'] .= '
 </thead>
 ';
 
-$lastDate = 0;
+$lastDate = "";
 
 while ($row = $result->fetchArray()) {
     $key = $row['key'];
 
-    $editCode = " style='cursor: pointer;' onclick='fill($key)' data-toggle=\"modal\" data-target=\"#editModal\"  class='reducedpadding fixedfont'";
+    $monthYear = date("F Y", $row['date']);
 
-    $rowColor=' class="table-active"';
+    if ($lastDate != $monthYear && $lastDate != "")
+        $Page['contents'] .= "
+        <tr>
+            <td class='bg-primary reducedpadding fixedfont' colspan='50' style='color:#ffffff;font-weight: bold;text-align: center;'>
+                $lastDate
+            </td>
+        </tr>";
 
-    if ($row['running_balance'] < 0) $rowColor=' class="bg-danger"';
-    else if ($row['status'] == 'PLANNED')  $rowColor=' class="table-danger"';
-    else if ($row['status'] == 'RECONCILED')  $rowColor=' class="table-success"';
-    else if ($row['status'] == 'PAID')  $rowColor=' class="table-warning"';
+    $lastDate = $monthYear;
+
+    $editCode = " style='cursor: pointer;' onclick='fill($key)' data-toggle=\"modal\" data-target=\"#editModal\" class='reducedpadding fixedfont'";
+
+    $rowColor = ' class="table-active"';
+
+    if ($row['running_balance'] < 0) $rowColor = ' class="bg-danger"';
+    else if ($row['status'] == 'PLANNED') $rowColor = ' class="table-danger"';
+    else if ($row['status'] == 'RECONCILED') $rowColor = ' class="table-success"';
+    else if ($row['status'] == 'PAID') $rowColor = ' class="table-warning"';
 
     $Page['contents'] .= "<tr $rowColor>";
     $Page['contents'] .= "
@@ -339,6 +352,7 @@ while ($row = $result->fetchArray()) {
                     <button type='submit' onclick=\"return confirm('Are you sure?')\"><i class=\"fas fa-trash-alt\"></i></button>
                 </form>
             </td>";
+    $Page['contents'] .= "<td $editCode>" . $row['key'] . "</td>";
     $Page['contents'] .= "<td $editCode>" . date("y-m-d", $row['date']) . "</td>";
     $Page['contents'] .= "<td $editCode>" . $row['ord'] . "</td>";
 
