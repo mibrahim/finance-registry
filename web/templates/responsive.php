@@ -22,9 +22,9 @@
             integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
             crossorigin="anonymous"></script>
 
-    <link rel="stylesheet" href="/inc/custom.css">
+    <link rel="stylesheet" href="inc/custom.css">
 
-    <script src="/inc/jscripts.js"></script>
+    <script src="inc/jscripts.js"></script>
     <title><?php echo $Page['title'] ?></title>
 </head>
 <body>
