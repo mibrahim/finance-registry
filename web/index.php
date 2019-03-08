@@ -22,6 +22,8 @@ if ($todo == 'addtxn') {
     $newNotes = trim(filter_input(INPUT_POST, "notes"));
     $newURL = trim(filter_input(INPUT_POST, "url"));
 
+    $newAmount = str_replace(",", "", $newAmount);
+
 
     $date = strtotime($newDate);
 
@@ -62,6 +64,8 @@ if ($todo == 'updatetxn') {
     $newOrd = trim(filter_input(INPUT_POST, "ord"));
     $newNotes = trim(filter_input(INPUT_POST, "notes"));
     $newURL = trim(filter_input(INPUT_POST, "url"));
+
+    $newAmount = str_replace(",", "", $newAmount);
 
     $date = strtotime($newDate);
 
@@ -363,8 +367,8 @@ while ($row = $result->fetchArray()) {
     $Page['contents'] .= "<td $editCode>" . $row['status'] . "</td>";
     $Page['contents'] .= "<td $editCode>" . $row['description'] . "</td>";
     $Page['contents'] .= "<td $editCode>" . $row['target'] . "</td>";
-    $Page['contents'] .= "<td $editCode>" . $row['amount'] . "</td>";
-    $Page['contents'] .= "<td $editCode>" . $row['running_balance'] . "</td>";
+    $Page['contents'] .= "<td $editCode>" . number_format($row['amount'], 2, ".", ",") . "</td>";
+    $Page['contents'] .= "<td $editCode>" . number_format($row['running_balance'], 2, ".", ",") . "</td>";
 
     $Page['contents'] .= "</tr>";
 }
