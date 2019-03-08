@@ -367,8 +367,8 @@ while ($row = $result->fetchArray()) {
     $Page['contents'] .= "<td $editCode>" . $row['status'] . "</td>";
     $Page['contents'] .= "<td $editCode>" . $row['description'] . "</td>";
     $Page['contents'] .= "<td $editCode>" . $row['target'] . "</td>";
-    $Page['contents'] .= "<td $editCode>" . number_format($row['amount'], 2, ".", ",") . "</td>";
-    $Page['contents'] .= "<td $editCode>" . number_format($row['running_balance'], 2, ".", ",") . "</td>";
+    $Page['contents'] .= "<td $editCode>" . formatNumber($row['amount']) . "</td>";
+    $Page['contents'] .= "<td $editCode>" . formatNumber($row['running_balance']) . "</td>";
 
     $Page['contents'] .= "</tr>";
 }

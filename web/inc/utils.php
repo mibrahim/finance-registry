@@ -82,3 +82,10 @@ function updateBalances($entity, $account, $date)
     }
     query("commit");
 }
+
+function formatNumber($number)
+{
+    $string = sprintf("% 10s", number_format($number, 2, ".", ","));
+
+    return str_replace(" ", "&nbsp;", $string);
+}
