@@ -7,7 +7,7 @@ $webdir = str_replace("inc/conf.php", "", __FILE__);
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
-$Page = ['contents' => '', 'title' => '', 'sub_title' => ''];
+$Page = ['contents' => '', 'title' => '', 'sub_title' => '', 'debug' => ''];
 
 $dbPath = $webdir . '.db/mysqlitedb.db';
 
@@ -18,11 +18,27 @@ try {
     die($e);
 }
 
+$queries = 0;
+$debug = filter_input(INPUT_GET, 'debug');
+$totalQueryTime = 0;
 function query($query, $DIE = TRUE)
 {
-    global $db;
+    global $db, $queries, $debug, $totalQueryTime;
+
+    $queries++;
+
+    $totalTime = 0;
+
+    if ($debug == '1') $totalTime = -microtime(true);
 
     $result = $db->query($query);
+
+    if ($debug == '1') {
+        $totalTime = $totalTime + microtime(true);
+        global $Page;
+        $Page['debug'] .= "<div><b>$queries - Time:$totalTime</b><br/><code>$query</code></div>";
+        $totalQueryTime += $totalTime;
+    }
 
     if ($result) {
         return $result;

@@ -107,7 +107,7 @@ if ($account != null) $query .= " account='" . se($account) . "'";
 $query .= " order by date desc, ord desc limit 100 offset " . ($page * 100);
 
 try {
-    $result = $db->query($query);
+    $result = query($query);
 } catch (Exception $e) {
     echo "Error while executing query: <code>$query</code><br>";
     die($e);

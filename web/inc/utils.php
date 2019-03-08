@@ -2,11 +2,9 @@
 
 function getEntities()
 {
-    global $db;
-
     $sql = "select distinct(entity) from txns order by entity";
 
-    $result = $db->query($sql);
+    $result = query($sql);
 
     $entities = array();
 
@@ -18,14 +16,12 @@ function getEntities()
 
 function getAccounts($entity)
 {
-    global $db;
-
     if ($entity != null)
-        $sql = "select distinct(account) from txns where entity = '".se($entity)."' order by account";
+        $sql = "select distinct(account) from txns where entity = '" . se($entity) . "' order by account";
     else
         $sql = "select distinct(account) from txns order by account";
 
-    $result = $db->query($sql);
+    $result = query($sql);
 
     $accounts = array();
 
@@ -37,11 +33,9 @@ function getAccounts($entity)
 
 function getAllStatuses()
 {
-    global $db;
-
     $sql = "select distinct(status) from txns order by status";
 
-    $result = $db->query($sql);
+    $result = query($sql);
 
     $statuses = array();
 
@@ -53,14 +47,12 @@ function getAllStatuses()
 
 function getAllTargets($entity)
 {
-    global $db;
-
     if ($entity != null)
-        $sql = "select distinct(target) from txns where entity='".se($entity)."' order by target";
+        $sql = "select distinct(target) from txns where entity='" . se($entity) . "' order by target";
     else
         $sql = "select distinct(target) from txns order by target";
 
-    $result = $db->query($sql);
+    $result = query($sql);
 
     $targets = array();
 
@@ -74,13 +66,19 @@ function updateBalances($entity, $account, $date)
 {
     // Recompute the whole thing
     // TODO: Optimize using the date
-    $result = query("select key, amount from txns where entity='".se($entity)."' and account='".se($account)."' order by date, ord asc");
+    $result = query("select key, amount, running_balance from txns where entity='" . se($entity)
+        . "' and account='" . se($account) . "' order by date, ord asc");
 
     $balance = 0;
 
+    query("begin transaction");
     while ($row = $result->fetchArray(SQLITE3_ASSOC)) {
         $balance += $row['amount'];
-        $updateSql = "update txns set running_balance=$balance where key = $row[key];\n";
-        query($updateSql);
+
+        if ($balance != $row['running_balance']) {
+            $updateSql = "update txns set running_balance=$balance where key = $row[key];\n";
+            query($updateSql);
+        }
     }
+    query("commit");
 }

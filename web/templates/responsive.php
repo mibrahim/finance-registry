@@ -30,6 +30,11 @@
 <body>
 <div id="idk"></div>
 <?php echo $Page['contents'] ?>
-
+<?php
+if (strlen($Page['debug']) > 0) {
+    echo "<hr>" . $Page['debug'];
+    echo "<br/><b>Total query time: $totalQueryTime</b>";
+}
+?>
 </body>
 </html>
