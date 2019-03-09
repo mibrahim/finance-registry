@@ -24,7 +24,7 @@
 
     <link rel="stylesheet" href="inc/custom.css">
 
-    <script src="inc/jscripts.js"></script>
+    <script src="inc/jscripts.js?1"></script>
     <title><?php echo $Page['title'] ?></title>
 </head>
 <body>

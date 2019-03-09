@@ -152,43 +152,43 @@ $Page['contents'] .= '
           <div class="modal-body">
             <input type="hidden" name="todo" value="addtxn"/>
 
-            <b>Entity:</b> <input class="form-control" type="text"
+            <b>Entity:</b> <input id="newentity" class="form-control" type="text"
                                 list="entityoptions" name="entity" value="' . $entity . '" autocomplete="off">
                                 
             <datalist id="entityoptions">
                 <option>' . $allEntitiesOptions . '</option>
             </datalist>                    
             
-            <b>Account:</b> <input class="form-control" type="text"
+            <b>Account:</b> <input id="newaccount" class="form-control" type="text"
                                 list="accountsoptions" name="account" value="' . $account . '" autocomplete="off">
             
             <datalist id="accountsoptions">
                 <option>' . $allAccountsOptions . '</option>
             </datalist>                    
             
-            <b>Status:</b> <input class="form-control" type="text"
+            <b>Status:</b> <input id="newstatus" class="form-control" type="text"
                                 list="statusesoptions" name="status" autocomplete="off">
             
             <datalist id="statusesoptions">
                 <option>' . $allStatusOptions . '</option>
             </datalist>                    
             
-            <b>Target:</b> <input class="form-control" type="text"
+            <b>Target:</b> <input id="newtarget" class="form-control" type="text"
                                 list="targetsoptions" name="target" autocomplete="off">
             
             <datalist id="targetsoptions">
                 <option>' . $allTargetsOptions . '</option>
             </datalist>                    
             
-            <b>Amount:</b> <input class="form-control" type="text" name="amount">
+            <b>Amount:</b> <input id="newamount" class="form-control" type="text" name="amount">
 
-            <b>Description:</b> <input class="form-control" type="text" name="description">
+            <b>Description:</b> <input id="newdescription" class="form-control" type="text" name="description">
 
-            <b>Date:</b> <input class="form-control" type="date" name="date">
+            <b>Date:</b> <input id="newdate" class="form-control" type="date" name="date">
 
-            <b>Notes:</b> <input class="form-control" type="text" name="notes">
+            <b>Notes:</b> <input id="newnotes" class="form-control" type="text" name="notes">
 
-            <b>URL:</b> <input class="form-control" type="text" name="url">
+            <b>URL:</b> <input id="newurl" class="form-control" type="text" name="url">
             
           </div>
           <div class="modal-footer">
@@ -296,7 +296,7 @@ $Page['contents'] .= '
 <table class="table table-hover">
 <thead>
     <tr class="thead-dark">
-        <th>DEL</th>
+        <th>Operations</th>
         <th>Key</th>
         <th>Date</th>
         <th>ORDER</th>';
@@ -351,7 +351,8 @@ while ($row = $result->fetchArray()) {
     $Page['contents'] .= "<tr $rowColor>";
     $Page['contents'] .= "
             <td class='reducedpadding fixedfont'>
-                <form method='post'>
+                <button onclick=\"duplicate($key)\" data-toggle=\"modal\" data-target=\"#addNewModal\"><i class=\"fas fa-copy\"></i></button>
+                <form method='post' style='display:inline;'>
                     <input type='hidden' name='todo' value='deletetxn'>
                     <input type='hidden' name='key' value='$key'>
                     <button type='submit' onclick=\"return confirm('Are you sure?')\"><i class=\"fas fa-trash-alt\"></i></button>
