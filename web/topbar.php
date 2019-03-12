@@ -2,6 +2,17 @@
 
 $entity = filter_input(INPUT_GET, 'entity');
 $account = filter_input(INPUT_GET, 'account');
+$page = filter_input(INPUT_GET, 'page');
+$start = filter_input(INPUT_GET, 'start');
+$startDate = 0;
+if ($start != null) $startDate = strtotime($start);
+$end = filter_input(INPUT_GET, 'end');
+$endDate = 9e9;
+if ($end != null) $endDate = strtotime($end);
+$stringFilter = filter_input(INPUT_GET, 'filter');
+
+$start = date("Y-m-d", $startDate);
+$end = date("Y-m-d", $endDate);
 
 // Add transaction button
 
@@ -155,7 +166,10 @@ $Page['contents'] .= '
 
 ';
 $Page['contents'] .= '
-<a class="btn btn-primary" href="p_and_l.php" target="_blank">
+<a class="btn btn-primary" href="index.php">
+    <i class="fas fa-file-invoice-dollar"></i> Register
+</a>
+<a class="btn btn-primary" href="p_and_l.php">
     <i class="fas fa-file-invoice-dollar"></i> P&L report
 </a>
 ';
@@ -163,19 +177,27 @@ $Page['contents'] .= '
 // Add filters
 $Page['contents'] .= "
 <form method='get' style='float:right;'>
-            <b>Entity:</b> <input type=\"text\"
-                                list=\"entityoptions1\" name=\"entity\" value=\"$entity\" autocomplete=\"off\">
+            <b>Entity:</b> <input type='text' list='entityoptions1' name='entity' value='$entity' autocomplete='off'>
                                 
-            <datalist id=\"entityoptions1\">
+            <datalist id='entityoptions1'>
                 <option>$allEntitiesOptions</option>
             </datalist>                    
             
-            <b>Account:</b> <input type=\"text\"
-                                list=\"accountsoptions1\" name=\"account\" value=\"$account\" autocomplete=\"off\">
+            <b>Account:</b> 
+            <input type='text' list='accountsoptions1' name='account' value='$account' autocomplete='off'>
             
-            <datalist id=\"accountsoptions1\">
+            <datalist id='accountsoptions1'>
                 <option>$allAccountsOptions</option>
             </datalist>
+
+            <b>Start:</b> 
+            <input type='date' name='start' value='$start' autocomplete='off'>
+            
+            <b>End:</b> 
+            <input type='date' name='end' value='$end' autocomplete='off'>
+            
+            <b>Filter:</b> 
+            <input type='text' name='filter' value='" . htmlentities($stringFilter) . "' autocomplete='off'>
             
             <input class='btn btn-primary' type='submit'>                    
 </form>

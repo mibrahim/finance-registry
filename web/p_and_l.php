@@ -4,20 +4,34 @@ require_once dirname(__FILE__) . "/inc/utils.php";
 
 include "topbar.php";
 
+if ($page == null) $page = 0;
+$page = ($page + 1) - 1;
+
 $filter = "";
 
 if ($entity != null) {
-    $filter .= "entity = '" . se($entity) . "' ";
+    $filter .= " entity='" . se($entity) . "' ";
 }
 
 if ($account != null) {
-    if (strlen($filter)) $filter .= " and ";
-    $filter .= "account = '" . se($account) . "' ";
+    if ($filter != "") $filter .= " and ";
+    $filter .= " account='" . se($account) . "'";
 }
 
-if (strlen($filter)) $filter = " where $filter ";
+if ($filter != "") $filter .= " and ";
+$filter .= " date>=$startDate and date<=$endDate";
 
-$result = query("select target, sum(amount) as sum from txns $filter group by target order by target");
+if (strlen($stringFilter) > 0) {
+    if ($filter != "") $filter .= " and ";
+    $filter .= " (description like '%" . se($stringFilter) . "%' COLLATE NOCASE or " .
+        "target like '%" . se($stringFilter) . "%' COLLATE NOCASE) ";
+}
+
+if ($filter != "") $filter = " where $filter ";
+
+$query = "select target, sum(amount) as sum from txns $filter group by target order by target";
+
+$result = query($query);
 
 $Page['contents'] .= '
 <br/><br/>
@@ -46,10 +60,47 @@ while ($row = $result->fetchArray(SQLITE3_ASSOC)) {
 
 foreach ($sum as $key => $value) {
     $spaces = "";
-    for($i=0;$i!=substr_count($key,":");$i++) $spaces.="&nbsp;&nbsp;&nbsp;&nbsp;";
+    for ($i = 0; $i != substr_count($key, ":"); $i++) $spaces .= "&nbsp;&nbsp;&nbsp;&nbsp;";
     $Page['contents'] .= "<tr><td><code>$spaces $key</code></td><td><code>" . formatNumber($value) . "</code></td></tr>";
 }
 
 $Page['contents'] .= "</table></center>";
+
+$query = "select a.date, a.running_balance from txns a, (select date, max(ord) as maxord from txns $filter group by date) b where " .
+    "a.date=b.date and a.ord=b.maxord";
+
+$labels = "";
+$data = "";
+
+$result = query($query);
+
+while ($row = $result->fetchArray(SQLITE3_ASSOC)) {
+    if (strlen($labels) > 0) $labels .= " , ";
+    $labels .= '"' . date("m/d", $row['date']) . '"';
+
+    if (strlen($data) > 0) $data .= " , ";
+    $data .= number_format($row['running_balance'], 2,".","");
+}
+
+$Page['contents'] .= '
+<div style="width:700px;height:400px;margin-left: auto;margin-right: auto;">
+<canvas id="myChart"></canvas>
+</div>
+
+<script>
+var ctx = document.getElementById("myChart");
+var myChart = new Chart(ctx, {
+    type: "line",
+    data: {
+        labels: [' . $labels . '],
+        datasets: [{
+            label: "Balance",
+            data: [' . $data . '],
+            borderWidth: 1
+        }]
+    },
+});
+</script>
+';
 
 include dirname(__FILE__) . "/templates/responsive.php";

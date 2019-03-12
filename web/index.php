@@ -92,23 +92,32 @@ $Page['sub_title'] = "A multidate, multientry accounting system";
 
 include_once "topbar.php";
 
-$page = filter_input(INPUT_GET, 'page');
-
 if ($page == null) $page = 0;
 $page = ($page + 1) - 1;
 
-$query = "select * from txns ";
-
-if ($entity != null || $account != null) $query .= " where ";
+$filter = "";
 
 if ($entity != null) {
-    $query .= " entity='" . se($entity) . "' ";
-    if ($account != null) $query .= " and ";
+    $filter .= " entity='" . se($entity) . "' ";
 }
 
-if ($account != null) $query .= " account='" . se($account) . "'";
+if ($account != null) {
+    if ($filter != "") $filter .= " and ";
+    $filter .= " account='" . se($account) . "'";
+}
 
-$query .= " order by date desc, ord desc limit 100 offset " . ($page * 100);
+if ($filter != "") $filter .= " and ";
+$filter .= " date>=$startDate and date<=$endDate";
+
+if (strlen($stringFilter)>0){
+    if ($filter != "") $filter .= " and ";
+    $filter .= " (description like '%" . se($stringFilter) . "%' COLLATE NOCASE or ".
+            "target like '%" . se($stringFilter) . "%' COLLATE NOCASE) ";
+}
+
+if ($filter != "") $filter = " where $filter ";
+
+$query = "select * from txns $filter order by date desc, ord desc limit 100 offset " . ($page * 100);
 
 try {
     $result = query($query);
@@ -170,7 +179,7 @@ while ($row = $result->fetchArray()) {
     $rowColor = ' class="table-active"';
 
     if ($row['running_balance'] < 0) $rowColor = ' class="bg-danger"';
-    else if (strstr($row['target'],"INCOME:"))  $rowColor = ' class="bg-success"';
+    else if (strstr($row['target'], "INCOME:")) $rowColor = ' class="bg-success"';
     else if ($row['status'] == 'PLANNED') $rowColor = ' class="table-danger"';
     else if ($row['status'] == 'RECONCILED') $rowColor = ' class="table-success"';
     else if ($row['status'] == 'PAID') $rowColor = ' class="table-warning"';
