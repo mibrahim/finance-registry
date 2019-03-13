@@ -168,7 +168,7 @@ while ($row = $result->fetchArray()) {
         $Page['contents'] .= "
         <tr>
             <td class='bg-primary reduced_padding fixed_font' colspan='50' style='color:#ffffff;font-weight: bold;text-align: center;'>
-                $lastDate
+               <i class=\"fas fa-arrow-up\"></i> $lastDate <i class=\"fas fa-arrow-up\"></i>
             </td>
         </tr>";
 
