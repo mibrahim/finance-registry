@@ -179,8 +179,8 @@ while ($row = $result->fetchArray()) {
     $rowColor = ' class="table-active"';
 
     if ($row['running_balance'] < 0) $rowColor = ' class="bg-danger"';
-    else if (strstr($row['target'], "INCOME:")) $rowColor = ' class="bg-success"';
     else if ($row['status'] == 'PLANNED') $rowColor = ' class="table-light"';
+    else if (strstr($row['target'], "INCOME:")) $rowColor = ' class="bg-success"';
     else if ($row['status'] == 'RECONCILED') $rowColor = ' class="table-success"';
     else if ($row['status'] == 'PAID') $rowColor = ' class="table-warning"';
 
