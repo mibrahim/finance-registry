@@ -134,7 +134,7 @@ $Page['contents'] .= '
     <tr class="thead-dark">
         <th>Operations</th>
         <th>Key</th>
-        <th>Date</th>
+        <th>DOM</th>
         <th>ORDER</th>';
 
 if ($entity == null) $Page['contents'] .= '
@@ -167,14 +167,14 @@ while ($row = $result->fetchArray()) {
     if ($lastDate != $monthYear && $lastDate != "")
         $Page['contents'] .= "
         <tr>
-            <td class='bg-primary reducedpadding fixedfont' colspan='50' style='color:#ffffff;font-weight: bold;text-align: center;'>
+            <td class='bg-primary reduced_padding fixed_font' colspan='50' style='color:#ffffff;font-weight: bold;text-align: center;'>
                 $lastDate
             </td>
         </tr>";
 
     $lastDate = $monthYear;
 
-    $editCode = " style='cursor: pointer;' onclick='fill($key)' data-toggle=\"modal\" data-target=\"#editModal\" class='reducedpadding fixedfont'";
+    $editCode = " style='cursor: pointer;' onclick='fill($key)' data-toggle=\"modal\" data-target=\"#editModal\" class='reduced_padding fixed_font'";
 
     $rowColor = ' class="table-active"';
 
@@ -186,7 +186,7 @@ while ($row = $result->fetchArray()) {
 
     $Page['contents'] .= "<tr $rowColor>";
     $Page['contents'] .= "
-            <td class='reducedpadding fixedfont'>
+            <td class='reduced_padding fixedfont'>
                 <button onclick=\"duplicate($key)\" data-toggle=\"modal\" data-target=\"#addNewModal\"><i class=\"fas fa-copy\"></i></button>
                 <form method='post' style='display:inline;'>
                     <input type='hidden' name='todo' value='deletetxn'>
@@ -195,7 +195,7 @@ while ($row = $result->fetchArray()) {
                 </form>
             </td>";
     $Page['contents'] .= "<td $editCode>" . $row['key'] . "</td>";
-    $Page['contents'] .= "<td $editCode>" . date("y-m-d", $row['date']) . "</td>";
+    $Page['contents'] .= "<td $editCode>" . date("d", $row['date']) . "</td>";
     $Page['contents'] .= "<td $editCode>" . $row['ord'] . "</td>";
 
     if ($entity == null) $Page['contents'] .= "<td $editCode>" . htmlentities($row['entity']) . '</td>';

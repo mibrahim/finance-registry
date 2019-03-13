@@ -1,8 +1,10 @@
-.reducedpadding {
-    padding: 2px !important;
+@import url('https://fonts.googleapis.com/css?family=Roboto+Mono');
+
+.reduced_padding {
+    padding: 1px !important;
 }
 
-.fixedfont {
-    font-family: Courier !important;
-    font-size: 10pt;
+.fixed_font {
+    font-family: font-family: 'Roboto Mono', monospace;
+    font-size: 12pt;
 }
