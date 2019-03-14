@@ -8,7 +8,9 @@ $todo = filter_input(INPUT_POST, "todo");
 if ($todo == 'deletetxn') {
     $key = strtoupper(trim(filter_input(INPUT_POST, "key")));
 
+    $row = query_row("select * from txns where key=$key");
     query("delete from txns where key=$key");
+    updateBalances($row['entity'], $row['account'], $row['date']);
 }
 
 if ($todo == 'addtxn') {
