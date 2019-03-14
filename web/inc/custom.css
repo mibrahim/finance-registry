@@ -17,6 +17,14 @@
     padding: 5px;
 }
 
+.top_bar_form {
+    font-size: 12px;
+}
+
+.top_bar_form input {
+    width: 128px;
+}
+
 .pages {
     width: 100%;
     text-align: center;

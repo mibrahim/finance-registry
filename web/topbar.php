@@ -45,7 +45,7 @@ $Page['contents'] .= '
 
 // Add filters
 $Page['contents'] .= "
-<form method='get' style='float:right;'>
+<form method='get' class='top_bar_form' style='float:right;'>
             <b>Entity:</b> <input type='text' list='entityoptions1' name='entity' value='$entity' autocomplete='off'>
                                 
             <datalist id='entityoptions1'>
