@@ -127,18 +127,30 @@ if (strlen($stringFilter) > 0) {
 
 if ($filter != "") $filter = " where $filter ";
 
-$query = "select * from txns $filter order by date desc, ord desc limit 300 offset " . ($page * 300);
+$count_rows = query_row("select count(1) as count from txns $filter");
 
-try {
-    $result = query($query);
-} catch (Exception $e) {
-    echo "Error while executing query: <code>$query</code><br>";
-    die($e);
-}
+$Page['contents'] .= "<div class='pages'>";
+$endPage = ($page +1)*100;
+if ($endPage>$count_rows['count']) $endPage=$count_rows['count'];
+
+$Page['contents'] .= "<br/><br/>$count_rows[count] rows. Displaying " . ($page * 100 + 1) . " to $endPage<br/>";
+$pageUrl = "index.php?entity=" . urlencode($entity) . "&account=" . urlencode($account) .
+    "&start=$start&end=$end&filter=" . urlencode($stringFilter) . "&page=";
+
+$pages = ceil($count_rows['count'] / 100);
+
+for ($pageNumber = 0; $pageNumber != $pages; $pageNumber++)
+    $Page['contents'] .= "<a class='btn btn-warning' href='$pageUrl$pageNumber'>$pageNumber</a> ";
+$Page['contents'] .= "</div>";
+
+$query = "select * from txns $filter order by date desc, ord desc limit 100 offset " . ($page * 100);
+
+
+$result = query($query);
 
 // Print the headings
 $Page['contents'] .= '
-<br/><br/>
+<br/>
 <table class="table table-hover">
 <thead>
     <tr class="thead-dark">
@@ -222,6 +234,6 @@ while ($row = $result->fetchArray()) {
 }
 $Page['contents'] .= "</table>";
 
-$Page['contents'] .= "<code>$query</code><br/>";
+$Page['contents'] .= "<code>".htmlentities($query)."</code><br/>";
 
 include dirname(__FILE__) . "/templates/responsive.php";

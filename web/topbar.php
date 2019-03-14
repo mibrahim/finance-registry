@@ -11,6 +11,7 @@ $endDate = 9e9;
 if ($end != null) $endDate = strtotime($end);
 $stringFilter = filter_input(INPUT_GET, 'filter');
 
+
 $start = date("Y-m-d", $startDate);
 $end = date("Y-m-d", $endDate);
 
