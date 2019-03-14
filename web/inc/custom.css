@@ -8,3 +8,11 @@
     font-family: font-family: 'Roboto Mono', monospace;
     font-size: 12pt;
 }
+
+#top_bar {
+    position: fixed;
+    top: 0;
+    background: #eee;
+    width: 100%;
+    padding: 5px;
+}

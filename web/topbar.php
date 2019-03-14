@@ -29,11 +29,50 @@ $allTargets = getAllTargets($entity);
 $allTargetsOptions = implode("</option><option>", $allTargets);
 
 $Page['contents'] .= '
-<br/>
+<div id="top_bar">
 <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addNewModal">
     <i class="fas fa-plus-circle"></i> TXN
 </button>
 
+<a class="btn btn-primary" href="index.php">
+    <i class="fas fa-file-invoice-dollar"></i> Register
+</a>
+<a class="btn btn-primary" href="p_and_l.php">
+    <i class="fas fa-file-invoice-dollar"></i> P&L report
+</a>
+';
+
+// Add filters
+$Page['contents'] .= "
+<form method='get' style='float:right;'>
+            <b>Entity:</b> <input type='text' list='entityoptions1' name='entity' value='$entity' autocomplete='off'>
+                                
+            <datalist id='entityoptions1'>
+                <option>$allEntitiesOptions</option>
+            </datalist>                    
+            
+            <b>Account:</b> 
+            <input type='text' list='accountsoptions1' name='account' value='$account' autocomplete='off'>
+            
+            <datalist id='accountsoptions1'>
+                <option>$allAccountsOptions</option>
+            </datalist>
+
+            <b>Start:</b> 
+            <input type='date' name='start' value='$start' autocomplete='off'>
+            
+            <b>End:</b> 
+            <input type='date' name='end' value='$end' autocomplete='off'>
+            
+            <b>Filter:</b> 
+            <input type='text' name='filter' value='" . htmlentities($stringFilter) . "' autocomplete='off'>
+            
+            <input class='btn btn-primary' type='submit'>                    
+</form>
+</div>
+";
+
+$Page['contents'].='
 <!-- Modal -->
 <div class="modal fade" id="addNewModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog" role="document">
@@ -175,40 +214,3 @@ $Page['contents'] .= '
 </div>
 
 ';
-$Page['contents'] .= '
-<a class="btn btn-primary" href="index.php">
-    <i class="fas fa-file-invoice-dollar"></i> Register
-</a>
-<a class="btn btn-primary" href="p_and_l.php">
-    <i class="fas fa-file-invoice-dollar"></i> P&L report
-</a>
-';
-
-// Add filters
-$Page['contents'] .= "
-<form method='get' style='float:right;'>
-            <b>Entity:</b> <input type='text' list='entityoptions1' name='entity' value='$entity' autocomplete='off'>
-                                
-            <datalist id='entityoptions1'>
-                <option>$allEntitiesOptions</option>
-            </datalist>                    
-            
-            <b>Account:</b> 
-            <input type='text' list='accountsoptions1' name='account' value='$account' autocomplete='off'>
-            
-            <datalist id='accountsoptions1'>
-                <option>$allAccountsOptions</option>
-            </datalist>
-
-            <b>Start:</b> 
-            <input type='date' name='start' value='$start' autocomplete='off'>
-            
-            <b>End:</b> 
-            <input type='date' name='end' value='$end' autocomplete='off'>
-            
-            <b>Filter:</b> 
-            <input type='text' name='filter' value='" . htmlentities($stringFilter) . "' autocomplete='off'>
-            
-            <input class='btn btn-primary' type='submit'>                    
-</form>
-";
