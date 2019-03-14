@@ -24,32 +24,40 @@ if ($todo == 'addtxn') {
 
     $newAmount = str_replace(",", "", $newAmount);
 
+    $numberOfTimes = trim(filter_input(INPUT_POST, "numberoftimes"));
+    $everyMonths = trim(filter_input(INPUT_POST, "everymonths"));
+    $everyWeeks = trim(filter_input(INPUT_POST, "everyweeks"));
 
     $date = strtotime($newDate);
 
     // Find the max ord in that day
-    $row = query_row("select max(ord) as ord from txns where date=$date");
+    for ($reps = 0; $reps != $numberOfTimes; $reps++) {
+        $row = query_row("select max(ord) as ord from txns where date=$date");
 
-    if ($row == false) $max = 0;
-    else $max = $row['ord'];
+        if ($row == false) $max = 0;
+        else $max = $row['ord'];
 
-    $max = $max + 1;
+        $max = $max + 1;
 
-    $sql = "insert into txns(entity, account, status, target, description, amount, date, ord, notes, url) values (" .
-        "'" . se($newEntity) . "'," .
-        "'" . se($newAccount) . "'," .
-        "'" . se($newStatus) . "'," .
-        "'" . se($newTarget) . "'," .
-        "'" . se($newDescription) . "'," .
-        "$newAmount," .
-        "$date," .
-        "$max," .
-        "'" . se($newNotes) . "'," .
-        "'" . se($newURL) . "'" .
-        ")";
+        $sql = "insert into txns(entity, account, status, target, description, amount, date, ord, notes, url) values (" .
+            "'" . se($newEntity) . "'," .
+            "'" . se($newAccount) . "'," .
+            "'" . se($newStatus) . "'," .
+            "'" . se($newTarget) . "'," .
+            "'" . se($newDescription) . "'," .
+            "$newAmount," .
+            "$date," .
+            "$max," .
+            "'" . se($newNotes) . "'," .
+            "'" . se($newURL) . "'" .
+            ")";
 
-    query($sql);
-    updateBalances($newEntity, $newAccount, $date);
+        query($sql);
+        updateBalances($newEntity, $newAccount, $date);
+
+        // Update date
+        $date = strtotime("+$everyMonths months", strtotime("+$everyWeeks weeks", $date));
+    }
 }
 
 if ($todo == 'updatetxn') {
@@ -109,10 +117,10 @@ if ($account != null) {
 if ($filter != "") $filter .= " and ";
 $filter .= " date>=$startDate and date<=$endDate";
 
-if (strlen($stringFilter)>0){
+if (strlen($stringFilter) > 0) {
     if ($filter != "") $filter .= " and ";
-    $filter .= " (description like '%" . se($stringFilter) . "%' COLLATE NOCASE or ".
-            "target like '%" . se($stringFilter) . "%' COLLATE NOCASE) ";
+    $filter .= " (description like '%" . se($stringFilter) . "%' COLLATE NOCASE or " .
+        "target like '%" . se($stringFilter) . "%' COLLATE NOCASE) ";
 }
 
 if ($filter != "") $filter = " where $filter ";

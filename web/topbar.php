@@ -87,6 +87,16 @@ $Page['contents'] .= '
 
             <b>URL:</b> <input id="newurl" class="form-control" type="text" name="url">
             
+            <h4>Repeat:</h4>
+            <b>Number of times:</b>
+             <input id="numberoftimes" class="form-control" type="number" value="1" name="numberoftimes">
+
+            <b>Every how many weeks:</b>
+             <input id="everyweeks" class="form-control" type="number"  value="0" name="everyweeks">
+
+            <b>Every how many months:</b>
+             <input id="everymonths" class="form-control" type="number"  value="0" name="everymonths">
+
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
