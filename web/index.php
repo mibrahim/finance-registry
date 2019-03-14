@@ -127,7 +127,7 @@ if (strlen($stringFilter) > 0) {
 
 if ($filter != "") $filter = " where $filter ";
 
-$query = "select * from txns $filter order by date desc, ord desc limit 100 offset " . ($page * 100);
+$query = "select * from txns $filter order by date desc, ord desc limit 300 offset " . ($page * 300);
 
 try {
     $result = query($query);
