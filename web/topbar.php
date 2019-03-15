@@ -29,6 +29,9 @@ $allStatusOptions = implode("</option><option>", $allStatuses);
 $allTargets = getAllTargets($entity);
 $allTargetsOptions = implode("</option><option>", $allTargets);
 
+$urlSuffix = "?entity=" . urlencode($entity) . "&account=" . urlencode($account) .
+    "&start=$start&end=$end&filter=" . urlencode($stringFilter);
+
 $Page['contents'] .= '
 <div id="top_bar">
 <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addNewModal">
@@ -38,7 +41,7 @@ $Page['contents'] .= '
 <a class="btn btn-primary" href="index.php">
     <i class="fas fa-file-invoice-dollar"></i> Register
 </a>
-<a class="btn btn-primary" href="p_and_l.php">
+<a class="btn btn-primary" href="p_and_l.php' . $urlSuffix . '">
     <i class="fas fa-file-invoice-dollar"></i> P&L report
 </a>
 ';
@@ -73,7 +76,7 @@ $Page['contents'] .= "
 </div>
 ";
 
-$Page['contents'].='
+$Page['contents'] .= '
 <!-- Modal -->
 <div class="modal fade" id="addNewModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog" role="document">

@@ -47,16 +47,33 @@ $Page['contents'] .= '
 
 $sum = array();
 
-while ($row = $result->fetchArray(SQLITE3_ASSOC)) {
-    $parts = explode(":", $row['target']);
+function chargeAccount($accountName, $amount, &$sumArray)
+{
+    $parts = explode(":", $accountName);
     $connected = "";
     for ($i = 0; $i != sizeof($parts); $i++) {
         if (strlen($connected) > 0) $connected .= ":";
-        $connected .= $parts[$i];
-        if (!isset($sum[$connected])) $sum[$connected] = $row['sum'];
-        else $sum[$connected] += $row['sum'];
+        $connected .= trim($parts[$i]);
+        if (!isset($sumArray[$connected])) $sumArray[$connected] = $amount;
+        else $sumArray[$connected] += $amount;
     }
 }
+
+while ($row = $result->fetchArray(SQLITE3_ASSOC)) {
+    $accountsString = $row['target'];
+
+    $accounts = explode(",", $accountsString);
+
+    foreach ($accounts as $key => $value) {
+        if (strstr($value, "=")) {
+            $sections = explode("=", $value);
+            chargeAccount($sections[0], $sections[1], $sum);
+        } else
+            chargeAccount($value, $row['sum'], $sum);
+    }
+}
+
+ksort($sum);
 
 foreach ($sum as $key => $value) {
     $spaces = "";
@@ -79,7 +96,7 @@ while ($row = $result->fetchArray(SQLITE3_ASSOC)) {
     $labels .= '"' . date("m/d", $row['date']) . '"';
 
     if (strlen($data) > 0) $data .= " , ";
-    $data .= number_format($row['running_balance'], 2,".","");
+    $data .= number_format($row['running_balance'], 2, ".", "");
 }
 
 $Page['contents'] .= '
