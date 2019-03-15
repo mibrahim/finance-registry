@@ -226,7 +226,7 @@ while ($row = $result->fetchArray()) {
 
     $Page['contents'] .= "<td $editCode>" . $row['status'] . "</td>";
     $Page['contents'] .= "<td $editCode>" . $row['description'] . "</td>";
-    $Page['contents'] .= "<td $editCode>" . $row['target'] . "</td>";
+    $Page['contents'] .= "<td $editCode>" . str_replace(",","<br/>",$row['target']) . "</td>";
     $Page['contents'] .= "<td $editCode>" . formatNumber($row['amount']) . "</td>";
     $Page['contents'] .= "<td $editCode>" . formatNumber($row['running_balance']) . "</td>";
 

@@ -78,7 +78,9 @@ ksort($sum);
 foreach ($sum as $key => $value) {
     $spaces = "";
     for ($i = 0; $i != substr_count($key, ":"); $i++) $spaces .= "&nbsp;&nbsp;&nbsp;&nbsp;";
-    $Page['contents'] .= "<tr><td><code>$spaces $key</code></td><td><code>" . formatNumber($value) . "</code></td></tr>";
+    $splitKey = explode(":", $key);
+    $keyName = $splitKey[sizeof($splitKey) - 1];
+    $Page['contents'] .= "<tr><td><code>$spaces $keyName</code></td><td><code>" . formatNumber($value) . "</code></td></tr>";
 }
 
 $Page['contents'] .= "</table></center>";
