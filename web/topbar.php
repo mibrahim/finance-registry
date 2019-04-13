@@ -65,7 +65,7 @@ $date = $minMaxDatesRow['mindate'];
 $url = "?entity=" . urlencode($entity) . "&account=" . urlencode($account);
 $buttons = "<table style='font-family:Monospace;'><tr><td colspan='5' style='text-align: center;'><a href='$url'>Reset</a></td></tr>";
 $counter = 0;
-while ($date < $minMaxDatesRow['maxdate']) {
+while ($date <= $minMaxDatesRow['maxdate']) {
     $currentDateStart = date("M-01-Y", $date);
     $monthStartTimeStamp = strtotime($currentDateStart);
     $currentDateEnd = date("M-d-Y", strtotime("-1 day", strtotime("+1 month", $monthStartTimeStamp)));
