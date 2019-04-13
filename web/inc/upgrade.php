@@ -39,4 +39,4 @@ if ($highestversion < $sysversion) {
     die("Error while upgrading system");
 }
 
-setvar("sysversion", $highestversion);
+setVar("sysversion", $highestversion);
