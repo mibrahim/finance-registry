@@ -36,14 +36,18 @@ if ($page == null) $page = 0;
 $page = ($page + 1) - 1;
 
 $filter = "";
+$datesFilter = "";
 
 if ($entity != null) {
     $filter .= " entity='" . se($entity) . "' ";
+    $datesFilter .= " entity='" . se($entity) . "' ";
 }
 
 if ($account != null) {
     if ($filter != "") $filter .= " and ";
+    if ($filter != "") $datesFilter .= " and ";
     $filter .= " account='" . se($account) . "'";
+    $datesFilter .= " account='" . se($account) . "'";
 }
 
 if ($filter != "") $filter .= " and ";
@@ -58,7 +62,7 @@ if (strlen($stringFilter) > 0) {
 if ($filter != "") $filter = " where $filter ";
 
 // Find min and max dates
-$minMaxDatesRow = query_row("select min(date) as mindate, max(date) as maxdate from txns $filter");
+$minMaxDatesRow = query_row("select min(date) as mindate, max(date) as maxdate from txns $datesFilter");
 
 // Compile quick buttons
 $date = $minMaxDatesRow['mindate'];
