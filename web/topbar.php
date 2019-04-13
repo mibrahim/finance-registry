@@ -32,10 +32,68 @@ $allTargetsOptions = implode("</option><option>", $allTargets);
 $urlSuffix = "?entity=" . urlencode($entity) . "&account=" . urlencode($account) .
     "&start=$start&end=$end&filter=" . urlencode($stringFilter);
 
+if ($page == null) $page = 0;
+$page = ($page + 1) - 1;
+
+$filter = "";
+
+if ($entity != null) {
+    $filter .= " entity='" . se($entity) . "' ";
+}
+
+if ($account != null) {
+    if ($filter != "") $filter .= " and ";
+    $filter .= " account='" . se($account) . "'";
+}
+
+if ($filter != "") $filter .= " and ";
+$filter .= " date>=$startDate and date<=$endDate";
+
+if (strlen($stringFilter) > 0) {
+    if ($filter != "") $filter .= " and ";
+    $filter .= " (description like '%" . se($stringFilter) . "%' COLLATE NOCASE or " .
+        "target like '%" . se($stringFilter) . "%' COLLATE NOCASE) ";
+}
+
+if ($filter != "") $filter = " where $filter ";
+
+// Find min and max dates
+$minMaxDatesRow = query_row("select min(date) as mindate, max(date) as maxdate from txns $filter");
+
+// Compile quick buttons
+$date = $minMaxDatesRow['mindate'];
+$url = "?entity=" . urlencode($entity) . "&account=" . urlencode($account);
+$buttons = "<table style='font-family:Monospace;'><tr><td colspan='5' style='text-align: center;'><a href='$url'>Reset</a></td></tr>";
+$counter = 0;
+while ($date < $minMaxDatesRow['maxdate']) {
+    $currentDateStart = date("M-01-Y", $date);
+    $monthStartTimeStamp = strtotime($currentDateStart);
+    $currentDateEnd = date("M-d-Y", strtotime("-1 day", strtotime("+1 month", $monthStartTimeStamp)));
+    $monthEndTimeStamp = strtotime($currentDateStart);
+    $date = strtotime("+1 month", $monthStartTimeStamp);
+
+    $url = "?entity=" . urlencode($entity) . "&account=" . urlencode($account) .
+        "&start=$currentDateStart&end=$currentDateEnd&filter=" . urlencode($stringFilter);
+
+    $text = date("My", $monthStartTimeStamp);
+    $buttons .= "<td><a href='$url'>$text</a></td>";
+
+    if ($counter++ == 4) {
+        $counter = 0;
+        $buttons .= "</tr><tr>";
+    }
+}
+
+$buttons .= "</tr></table>";
+
 $Page['contents'] .= '
 <div id="top_bar">
 <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addNewModal">
     <i class="fas fa-plus-circle"></i> TXN
+</button>
+
+<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#fastFilter">
+    <i class="fas fa-bolt"></i>
 </button>
 
 <a class="btn btn-primary" href="index.php">
@@ -78,6 +136,23 @@ $Page['contents'] .= "
 
 $Page['contents'] .= '
 <!-- Modal -->
+<!-- Modal -->
+<div class="modal fade" id="fastFilter" tabindex="-1" role="dialog" aria-labelledby="fastFilter" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Quick filters</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      
+     ' . $buttons . '
+    </div>
+  </div>
+</div>
+
+
 <div class="modal fade" id="addNewModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog" role="document">
     <div class="modal-content">

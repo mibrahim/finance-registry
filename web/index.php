@@ -102,31 +102,6 @@ $Page['sub_title'] = "A multidate, multientry accounting system";
 
 include_once "topbar.php";
 
-if ($page == null) $page = 0;
-$page = ($page + 1) - 1;
-
-$filter = "";
-
-if ($entity != null) {
-    $filter .= " entity='" . se($entity) . "' ";
-}
-
-if ($account != null) {
-    if ($filter != "") $filter .= " and ";
-    $filter .= " account='" . se($account) . "'";
-}
-
-if ($filter != "") $filter .= " and ";
-$filter .= " date>=$startDate and date<=$endDate";
-
-if (strlen($stringFilter) > 0) {
-    if ($filter != "") $filter .= " and ";
-    $filter .= " (description like '%" . se($stringFilter) . "%' COLLATE NOCASE or " .
-        "target like '%" . se($stringFilter) . "%' COLLATE NOCASE) ";
-}
-
-if ($filter != "") $filter = " where $filter ";
-
 $count_rows = query_row("select count(1) as count from txns $filter");
 
 $Page['contents'] .= "<div class='pages'>";
