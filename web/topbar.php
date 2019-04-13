@@ -44,8 +44,11 @@ if ($entity != null) {
 }
 
 if ($account != null) {
-    if ($filter != "") $filter .= " and ";
-    if ($filter != "") $datesFilter .= " and ";
+    if ($filter != ""){
+        $filter .= " and ";
+        $datesFilter .= " and ";
+    }
+
     $filter .= " account='" . se($account) . "'";
     $datesFilter .= " account='" . se($account) . "'";
 }
@@ -60,6 +63,7 @@ if (strlen($stringFilter) > 0) {
 }
 
 if ($filter != "") $filter = " where $filter ";
+if ($datesFilter != "") $datesFilter = " where $datesFilter ";
 
 // Find min and max dates
 $minMaxDatesRow = query_row("select min(date) as mindate, max(date) as maxdate from txns $datesFilter");
