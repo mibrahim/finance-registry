@@ -105,8 +105,8 @@ include_once "topbar.php";
 $count_rows = query_row("select count(1) as count from txns $filter");
 
 $Page['contents'] .= "<div class='pages'>";
-$endPage = ($page +1)*100;
-if ($endPage>$count_rows['count']) $endPage=$count_rows['count'];
+$endPage = ($page + 1) * 100;
+if ($endPage > $count_rows['count']) $endPage = $count_rows['count'];
 
 $Page['contents'] .= "<br/><br/>$count_rows[count] rows. Displaying " . ($page * 100 + 1) . " to $endPage<br/>";
 $pageUrl = "index.php?entity=" . urlencode($entity) . "&account=" . urlencode($account) .
@@ -200,8 +200,12 @@ while ($row = $result->fetchArray()) {
     if ($account == null) $Page['contents'] .= "<td $editCode>" . $row['account'] . '</td>';
 
     $Page['contents'] .= "<td $editCode>" . $row['status'] . "</td>";
-    $Page['contents'] .= "<td $editCode>" . $row['description'] . "</td>";
-    $Page['contents'] .= "<td $editCode>" . str_replace(",","<br/>",$row['target']) . "</td>";
+
+    $description = htmlentities($row['description']);
+    $description = str_ireplace("todo:", "<span style='background: black; color: #FFFF00;'>TODO:</span>", $description);
+
+    $Page['contents'] .= "<td $editCode>$description</td>";
+    $Page['contents'] .= "<td $editCode>" . str_replace(",", "<br/>", $row['target']) . "</td>";
     $Page['contents'] .= "<td $editCode>" . formatNumber($row['amount']) . "</td>";
     $Page['contents'] .= "<td $editCode>" . formatNumber($row['running_balance']) . "</td>";
 
@@ -209,6 +213,6 @@ while ($row = $result->fetchArray()) {
 }
 $Page['contents'] .= "</table>";
 
-$Page['contents'] .= "<code>".htmlentities($query)."</code><br/>";
+$Page['contents'] .= "<code>" . htmlentities($query) . "</code><br/>";
 
 include dirname(__FILE__) . "/templates/responsive.php";
