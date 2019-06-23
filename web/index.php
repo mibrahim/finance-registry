@@ -114,9 +114,12 @@ $pageUrl = "index.php?entity=" . urlencode($entity) . "&account=" . urlencode($a
 
 $pages = ceil($count_rows['count'] / 100);
 
+$Page['contents'] .= "<a class='btn btn-success' href='$monthBeforeUrl'>" . date("M-y", $monthBeforeStartTimeStamp) . "</a> ";
+
 for ($pageNumber = 0; $pageNumber != $pages; $pageNumber++)
     $Page['contents'] .= "<a class='btn btn-warning' href='$pageUrl$pageNumber'>$pageNumber</a> ";
-$Page['contents'] .= "</div>";
+
+$Page['contents'] .= "<a class='btn btn-success' href='$monthAfterUrl'>" . date("M-y", $monthAfterStartTimeStamp) . "</a></div>";
 
 $query = "select * from txns $filter order by date desc, ord desc limit 100 offset " . ($page * 100);
 

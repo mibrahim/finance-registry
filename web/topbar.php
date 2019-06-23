@@ -44,7 +44,7 @@ if ($entity != null) {
 }
 
 if ($account != null) {
-    if ($filter != ""){
+    if ($filter != "") {
         $filter .= " and ";
         $datesFilter .= " and ";
     }
@@ -73,6 +73,26 @@ $date = $minMaxDatesRow['mindate'];
 $url = "?entity=" . urlencode($entity) . "&account=" . urlencode($account);
 $buttons = "<table style='font-family:Monospace;'><tr><td colspan='5' style='text-align: center;'><a href='$url'>Reset</a></td></tr>";
 $counter = 0;
+
+$monthBeforeStartDate = date("M-01-Y", strtotime("-1 month", $startDate));
+$monthBeforeStartTimeStamp = strtotime($monthBeforeStartDate);
+$monthBeforeEndDate = date("M-d-Y", strtotime("-1 day", strtotime("+1 month", $monthBeforeStartTimeStamp)));
+$monthBeforeEndTimeStamp = strtotime($monthBeforeEndDate);
+
+$monthBeforeUrl = "?entity=" . urlencode($entity) . "&account=" . urlencode($account) .
+    "&start=$monthBeforeStartDate&end=$monthBeforeEndDate&filter=" . urlencode($stringFilter);
+
+$monthAfterStartDate = date("M-01-Y", strtotime("+1 month", $startDate));
+$monthAfterStartTimeStamp = strtotime($monthAfterStartDate);
+$monthAfterEndDate = date("M-d-Y", strtotime("-1 day", strtotime("+1 month", $monthAfterStartTimeStamp)));
+$monthAfterEndTimeStamp = strtotime($monthAfterEndDate);
+
+$monthAfterUrl = "?entity=" . urlencode($entity) . "&account=" . urlencode($account) .
+    "&start=$monthAfterStartDate&end=$monthAfterEndDate&filter=" . urlencode($stringFilter);
+
+$currentStartMonth = date("M-01-Y", $startDate);
+$currentEndMonth = date("M-01-Y", $endDate);
+
 while ($date <= $minMaxDatesRow['maxdate']) {
     $currentDateStart = date("M-01-Y", $date);
     $monthStartTimeStamp = strtotime($currentDateStart);
@@ -80,11 +100,16 @@ while ($date <= $minMaxDatesRow['maxdate']) {
     $monthEndTimeStamp = strtotime($currentDateStart);
     $date = strtotime("+1 month", $monthStartTimeStamp);
 
+    $style = "";
+    if ($currentDateStart == $currentStartMonth) {
+        $style = "style='background-color: #DDD;text-align: center;'";
+    }
+
     $url = "?entity=" . urlencode($entity) . "&account=" . urlencode($account) .
         "&start=$currentDateStart&end=$currentDateEnd&filter=" . urlencode($stringFilter);
 
     $text = date("My", $monthStartTimeStamp);
-    $buttons .= "<td><a href='$url'>$text</a></td>";
+    $buttons .= "<td $style style='text-align: center;'><a href='$url'>$text</a></td>";
 
     if ($counter++ == 4) {
         $counter = 0;
