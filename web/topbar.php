@@ -133,7 +133,10 @@ $Page['contents'] .= '
     <i class="fas fa-file-invoice-dollar"></i> Register
 </a>
 <a class="btn btn-primary" href="p_and_l.php' . $urlSuffix . '">
-    <i class="fas fa-file-invoice-dollar"></i> P&L report
+    <i class="fas fa-file-invoice-dollar"></i> P&L
+</a>
+<a class="btn btn-primary" href="balance_sheet.php' . $urlSuffix . '">
+    <i class="fas fa-file-invoice-dollar"></i> BSheet
 </a>
 ';
 

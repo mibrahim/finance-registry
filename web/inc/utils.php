@@ -89,3 +89,18 @@ function formatNumber($number)
 
     return str_replace(" ", "&nbsp;", $string);
 }
+
+function findMonthOpeningBalance($entity, $account, $date)
+{
+    // Find the first second of the month
+    $monthStartDate = strtotime(date("M-01-Y", $date));
+
+    // Find the last transaction in that account before that time
+
+    // Recompute the whole thing
+    // TODO: Optimize using the date
+    $result = query_row("select running_balance from txns where entity='" . se($entity)
+        . "' and account='" . se($account) . "' and date < $monthStartDate order by date desc, ord desc limit 1");
+
+    return $result['running_balance'];
+}
