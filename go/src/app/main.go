@@ -1,6 +1,3 @@
-// This is the name of our package
-// Everything with this package name can see everything
-// else inside the same package, regardless of the file they are in
 package main
 
 // These are the libraries we are going to use
@@ -13,6 +10,8 @@ import (
 	"os"
 	"path/filepath"
 
+	"./inc"
+
 	_ "github.com/mattn/go-sqlite3"
 )
 
@@ -23,7 +22,8 @@ type TodoPageData struct {
 	Debug    string
 }
 
-var tpl, tplerr = template.ParseFiles("src/responsive.html")
+var dir, err = filepath.Abs(filepath.Dir(os.Args[0]))
+var tpl, tplerr = template.ParseFiles("src/app/responsive.html")
 var webTemplate = template.Must(tpl, tplerr)
 var database, _ = sql.Open("sqlite3", ".db/mysqlitedb.db")
 
@@ -37,8 +37,6 @@ func main() {
 	}
 
 	fmt.Println("Template error: ", tplerr)
-
-	dir, err := filepath.Abs(filepath.Dir(os.Args[0]))
 
 	fmt.Println("Current dir: " + dir)
 
@@ -65,9 +63,10 @@ func main() {
 // "handler" is our handler function. It has to follow the function signature of a ResponseWriter and Request type
 // as the arguments.
 func handler(w http.ResponseWriter, r *http.Request) {
+	topBar := inc.GetTopBar(r)
 	data := TodoPageData{
 		Title:    "My TODO list",
-		Contents: "Here are some contents",
+		Contents: "Here are some contents" + topBar,
 	}
 
 	webTemplate.Execute(w, data)
