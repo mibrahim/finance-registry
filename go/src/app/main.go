@@ -63,9 +63,10 @@ func main() {
 // "handler" is our handler function. It has to follow the function signature of a ResponseWriter and Request type
 // as the arguments.
 func handler(w http.ResponseWriter, r *http.Request) {
+	// Setup the home mpage
 	topBar := inc.GetTopBar(r)
 	data := TodoPageData{
-		Title:    "My TODO list",
+		Title:    "Multidate",
 		Contents: "Here are some contents" + topBar,
 	}
 

@@ -7,13 +7,24 @@ import (
 
 // GetTopBar returns the top bar string
 func GetTopBar(r *http.Request) string {
-	topBarHtml = ""
+	entity, entityErr := filterInput(r, "entity")
+	account, accountErr := filterInput(r, "account")
+	page, pageErr := filterInput(r, "page")
+	start, startErr := filterInput(r, "start")
+	end, endErr := filterInput(r, "end")
+	stringFilter, stringFilterErr := filterInput(r, "filter")
 
-	entityValue, ok := r.URL.Query()["entity"]
-
-	if !ok {
-		entityValue = append(entityValue, "")
+	startDate := 0
+	if startErr != nil {
+		startDate, err := Strtotime(start)
 	}
+
+	endDate := 9e9
+	if endErr != nil {
+		endDate, err := Strtotime(end)
+	}
+
+	//	topBarHtml = ""
 
 	fmt.Println("entity: " + entityValue[0])
 
