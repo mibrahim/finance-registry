@@ -147,6 +147,10 @@ $Page['contents'] .= '
     <i class="far fa-clock"></i>
 </a>
 
+<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#todolist">
+    <i class="far fa-list-alt"></i>
+</button>
+
 <a class="btn btn-primary" href="index.php">
     <i class="fas fa-file-invoice-dollar"></i> Register
 </a>

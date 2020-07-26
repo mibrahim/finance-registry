@@ -39,7 +39,8 @@ if ($highestversion < "0002") {
 	// Upgrade to version 0002
 	query("BEGIN TRANSACTION");
 
-	query("CREATE TABLE todo(key INTEGER PRIMARY KEY AUTOINCREMENT, title text, description text)");
+	query("CREATE TABLE todo(key INTEGER PRIMARY KEY AUTOINCREMENT, title text, description text, status text)");
+	query("CREATE INDEX idx_todo_status on todo(status)");
 
 	query("COMMIT");
 
