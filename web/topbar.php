@@ -131,7 +131,7 @@ $buttons .= "</tr></table>";
 //
 // http://localhost:8123/?entity=&account=&start=Jan-01-2018&end=Jan-31-2018&filter=
 //
-$currentMonthUrl = "/?entity=$entity&account=$account&start=$currentMonthStart&end=$currentMonthEnd&filter=";
+$currentMonthUrl = "?entity=$entity&account=$account&start=$currentMonthStart&end=$currentMonthEnd&filter=";
 
 if (isset($_POST['todo']) && $_POST['todo'] == 'addnewtodo') {
   query("insert into todo(title) values ('" . se($_POST['todoitem']) . "')");
