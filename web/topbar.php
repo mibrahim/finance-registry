@@ -133,6 +133,30 @@ $buttons .= "</tr></table>";
 //
 $currentMonthUrl = "/?entity=$entity&account=$account&start=$currentMonthStart&end=$currentMonthEnd&filter=";
 
+if (isset($_POST['todo']) && $_POST['todo'] == 'addnewtodo') {
+  query("insert into todo(title) values ('" . se($_POST['todoitem']) . "')");
+}
+
+// Query the todo lists
+$todoList = "";
+$res = query("select * from todo where status != 'resolved' or status is null");
+
+while ($row = $res->fetchArray()) {
+  $todoList .= "<a href=''>
+  <i class='fas fa-square'></i>
+  </a>  $row[title] <br/>";
+}
+
+$todoList.="<hr/>";
+
+$res = query("select * from todo where status is not null");
+
+while ($row = $res->fetchArray()) {
+  $todoList .= "<a href=''>
+  <i class='fas fa-check-square'></i>
+  </a>  $row[title] <br/>";
+}
+
 $Page['contents'] .= '
 <div id="top_bar">
 <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addNewModal">
@@ -194,7 +218,6 @@ $Page['contents'] .= "
 
 $Page['contents'] .= '
 <!-- Modal -->
-<!-- Modal -->
 <div class="modal fade" id="fastFilter" tabindex="-1" role="dialog" aria-labelledby="fastFilter" aria-hidden="true">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
@@ -204,12 +227,34 @@ $Page['contents'] .= '
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
-      
      ' . $buttons . '
     </div>
   </div>
 </div>
 
+
+<div class="modal fade" id="todolist" tabindex="-1" role="dialog" aria-labelledby="todolist" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel"><i class="far fa-list-alt"></i> TODO List</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+
+      <div class="modal-body">
+        <form method="post">
+          <input type="text" class="form-control" name="todoitem"/>
+          <input type="hidden" name="todo" value="addnewtodo"/>
+          <input type="submit" class="btn btn-warning" value="Add New Item"/>
+        </form>
+        <hr/>
+      ' . $todoList . '
+      </div>
+    </div>
+  </div>
+</div>
 
 <div class="modal fade" id="addNewModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog" role="document">
