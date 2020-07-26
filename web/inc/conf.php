@@ -84,7 +84,7 @@ function getvar($varname)
     if ($row === FALSE) {
         return FALSE;
     }
-    return $row ['value'];
+    return $row['value'];
 }
 
 function setvar($varname, $value)
@@ -98,7 +98,7 @@ function setvar($varname, $value)
 }
 
 // Check the db version
-$sysversion = "0001";
+$sysversion = "0002";
 $dbver = getVar("sysversion");
 if ($dbver === FALSE) {
     $dbver = "0000";

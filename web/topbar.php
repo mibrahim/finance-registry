@@ -30,7 +30,7 @@ $allTargets = getAllTargets($entity);
 $allTargetsOptions = implode("</option><option>", $allTargets);
 
 $urlSuffix = "?entity=" . urlencode($entity) . "&account=" . urlencode($account) .
-    "&start=$start&end=$end&filter=" . urlencode($stringFilter);
+  "&start=$start&end=$end&filter=" . urlencode($stringFilter);
 
 if ($page == null) $page = 0;
 $page = ($page + 1) - 1;
@@ -39,27 +39,27 @@ $filter = "";
 $datesFilter = "";
 
 if ($entity != null) {
-    $filter .= " entity='" . se($entity) . "' ";
-    $datesFilter .= " entity='" . se($entity) . "' ";
+  $filter .= " entity='" . se($entity) . "' ";
+  $datesFilter .= " entity='" . se($entity) . "' ";
 }
 
 if ($account != null) {
-    if ($filter != "") {
-        $filter .= " and ";
-        $datesFilter .= " and ";
-    }
+  if ($filter != "") {
+    $filter .= " and ";
+    $datesFilter .= " and ";
+  }
 
-    $filter .= " account='" . se($account) . "'";
-    $datesFilter .= " account='" . se($account) . "'";
+  $filter .= " account='" . se($account) . "'";
+  $datesFilter .= " account='" . se($account) . "'";
 }
 
 if ($filter != "") $filter .= " and ";
 $filter .= " date>=$startDate and date<=$endDate";
 
 if (strlen($stringFilter) > 0) {
-    if ($filter != "") $filter .= " and ";
-    $filter .= " (description like '%" . se($stringFilter) . "%' COLLATE NOCASE or " .
-        "target like '%" . se($stringFilter) . "%' COLLATE NOCASE) ";
+  if ($filter != "") $filter .= " and ";
+  $filter .= " (description like '%" . se($stringFilter) . "%' COLLATE NOCASE or " .
+    "target like '%" . se($stringFilter) . "%' COLLATE NOCASE) ";
 }
 
 if ($filter != "") $filter = " where $filter ";
@@ -80,7 +80,7 @@ $monthBeforeEndDate = date("M-d-Y", strtotime("-1 day", strtotime("+1 month", $m
 $monthBeforeEndTimeStamp = strtotime($monthBeforeEndDate);
 
 $monthBeforeUrl = "?entity=" . urlencode($entity) . "&account=" . urlencode($account) .
-    "&start=$monthBeforeStartDate&end=$monthBeforeEndDate&filter=" . urlencode($stringFilter);
+  "&start=$monthBeforeStartDate&end=$monthBeforeEndDate&filter=" . urlencode($stringFilter);
 
 $monthAfterStartDate = date("M-01-Y", strtotime("+1 month", $startDate));
 $monthAfterStartTimeStamp = strtotime($monthAfterStartDate);
@@ -88,36 +88,50 @@ $monthAfterEndDate = date("M-d-Y", strtotime("-1 day", strtotime("+1 month", $mo
 $monthAfterEndTimeStamp = strtotime($monthAfterEndDate);
 
 $monthAfterUrl = "?entity=" . urlencode($entity) . "&account=" . urlencode($account) .
-    "&start=$monthAfterStartDate&end=$monthAfterEndDate&filter=" . urlencode($stringFilter);
+  "&start=$monthAfterStartDate&end=$monthAfterEndDate&filter=" . urlencode($stringFilter);
 
 $currentStartMonth = date("M-01-Y", $startDate);
 $currentEndMonth = date("M-01-Y", $endDate);
 
+$currentMonthStart = date("M-01-Y", time(0));
+$currentMonthEnd = date("M-d-Y", strtotime(
+  "-1 day",
+  strtotime(
+    "+1 month",
+    strtotime($currentMonthStart)
+  )
+));
+
 while ($date <= $minMaxDatesRow['maxdate']) {
-    $currentDateStart = date("M-01-Y", $date);
-    $monthStartTimeStamp = strtotime($currentDateStart);
-    $currentDateEnd = date("M-d-Y", strtotime("-1 day", strtotime("+1 month", $monthStartTimeStamp)));
-    $monthEndTimeStamp = strtotime($currentDateStart);
-    $date = strtotime("+1 month", $monthStartTimeStamp);
+  $currentDateStart = date("M-01-Y", $date);
+  $monthStartTimeStamp = strtotime($currentDateStart);
+  $currentDateEnd = date("M-d-Y", strtotime("-1 day", strtotime("+1 month", $monthStartTimeStamp)));
+  $monthEndTimeStamp = strtotime($currentDateStart);
+  $date = strtotime("+1 month", $monthStartTimeStamp);
 
-    $style = "";
-    if ($currentDateStart == $currentStartMonth) {
-        $style = "style='background-color: #DDD;text-align: center;'";
-    }
+  $style = "";
+  if ($currentDateStart == $currentStartMonth) {
+    $style = "style='background-color: #DDD;text-align: center;'";
+  }
 
-    $url = "?entity=" . urlencode($entity) . "&account=" . urlencode($account) .
-        "&start=$currentDateStart&end=$currentDateEnd&filter=" . urlencode($stringFilter);
+  $url = "?entity=" . urlencode($entity) . "&account=" . urlencode($account) .
+    "&start=$currentDateStart&end=$currentDateEnd&filter=" . urlencode($stringFilter);
 
-    $text = date("My", $monthStartTimeStamp);
-    $buttons .= "<td $style style='text-align: center;'><a href='$url'>$text</a></td>";
+  $text = date("My", $monthStartTimeStamp);
+  $buttons .= "<td $style style='text-align: center;'><a href='$url'>$text</a></td>";
 
-    if ($counter++ == 4) {
-        $counter = 0;
-        $buttons .= "</tr><tr>";
-    }
+  if ($counter++ == 4) {
+    $counter = 0;
+    $buttons .= "</tr><tr>";
+  }
 }
 
 $buttons .= "</tr></table>";
+
+//
+// http://localhost:8123/?entity=&account=&start=Jan-01-2018&end=Jan-31-2018&filter=
+//
+$currentMonthUrl = "/?entity=$entity&account=$account&start=$currentMonthStart&end=$currentMonthEnd&filter=";
 
 $Page['contents'] .= '
 <div id="top_bar">
@@ -128,6 +142,10 @@ $Page['contents'] .= '
 <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#fastFilter">
     <i class="fas fa-bolt"></i>
 </button>
+
+<a href="' . $currentMonthUrl . '" class="btn btn-primary" title="Current month">
+    <i class="far fa-clock"></i>
+</a>
 
 <a class="btn btn-primary" href="index.php">
     <i class="fas fa-file-invoice-dollar"></i> Register

@@ -4,8 +4,8 @@
 $highestversion = $dbver;
 
 if ($highestversion < "0001") {
-    // Upgrade to version 0001
-    query("BEGIN TRANSACTION");
+	// Upgrade to version 0001
+	query("BEGIN TRANSACTION");
 
 	query("CREATE TABLE variables(name text, value text)");
 
@@ -24,19 +24,30 @@ if ($highestversion < "0001") {
 			url text,
 			json text)");
 
-    query("CREATE INDEX idx_date on txns(date)");
-    query("CREATE INDEX idx_ord on txns(date, ord, entity, account)");
-    query("CREATE INDEX idx_ent on txns(entity)");
-    query("CREATE INDEX idx_account on txns(account)");
-    query("CREATE INDEX idx_ent_account on txns(entity, account)");
+	query("CREATE INDEX idx_date on txns(date)");
+	query("CREATE INDEX idx_ord on txns(date, ord, entity, account)");
+	query("CREATE INDEX idx_ent on txns(entity)");
+	query("CREATE INDEX idx_account on txns(account)");
+	query("CREATE INDEX idx_ent_account on txns(entity, account)");
 
-    query("COMMIT");
+	query("COMMIT");
 
-    $highestversion = "0001";
+	$highestversion = "0001";
+}
+
+if ($highestversion < "0002") {
+	// Upgrade to version 0002
+	query("BEGIN TRANSACTION");
+
+	query("CREATE TABLE todo(key INTEGER PRIMARY KEY AUTOINCREMENT, title text, description text)");
+
+	query("COMMIT");
+
+	$highestversion = "0002";
 }
 
 if ($highestversion < $sysversion) {
-    die("Error while upgrading system");
+	die("Error while upgrading system");
 }
 
 setVar("sysversion", $highestversion);
