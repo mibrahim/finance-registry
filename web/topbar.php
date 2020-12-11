@@ -160,7 +160,7 @@ while ($row = $res->fetchArray()) {
 $Page['contents'] .= '
 <div id="top_bar">
 <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addNewModal">
-    <i class="fas fa-plus-circle"></i> TXN
+    <i class="fas fa-plus-circle"></i>
 </button>
 
 <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#fastFilter">
@@ -176,7 +176,7 @@ $Page['contents'] .= '
 </button>
 
 <a class="btn btn-primary" href="index.php">
-    <i class="fas fa-file-invoice-dollar"></i> Register
+    <i class="fas fa-file-invoice-dollar"></i> Reg
 </a>
 <a class="btn btn-primary" href="p_and_l.php' . $urlSuffix . '">
     <i class="fas fa-file-invoice-dollar"></i> P&L
@@ -188,8 +188,8 @@ $Page['contents'] .= '
 
 // Add filters
 $Page['contents'] .= "
-<form method='get' class='top_bar_form' style='float:right;'>
-            <b>Entity:</b> <input type='text' list='entityoptions1' name='entity' value='$entity' autocomplete='off'>
+<form method='get' class='top_bar_form' style='float:right;font-size:0.7em;'>
+            <b>Entity:</b> <input type='text' list='entityoptions1' name='entity' value='$entity' autocomplete='off'/>
                                 
             <datalist id='entityoptions1'>
                 <option>$allEntitiesOptions</option>
@@ -211,7 +211,9 @@ $Page['contents'] .= "
             <b>Filter:</b> 
             <input type='text' name='filter' value='" . htmlentities($stringFilter) . "' autocomplete='off'>
             
-            <input class='btn btn-primary' type='submit'>                    
+            <button type='submit' class='btn btn-success'>
+              <i class='fa fa-arrow-circle-right fa-lg'></i>
+            </button>                 
 </form>
 </div>
 ";
