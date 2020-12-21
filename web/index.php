@@ -159,6 +159,9 @@ $Page['contents'] .= '
 
 $lastDate = "";
 
+$income = 0;
+$expense = 0;
+
 while ($row = $result->fetchArray()) {
     $key = $row['key'];
 
@@ -213,8 +216,14 @@ while ($row = $result->fetchArray()) {
     $Page['contents'] .= "<td $editCode>" . formatNumber($row['running_balance']) . "</td>";
 
     $Page['contents'] .= "</tr>";
+
+    if ($row['amount'] > 0) $income += $row['amount'];
+    else $expense += -$row['amount'];
 }
 $Page['contents'] .= "</table>";
+
+$Page['contents'] .= "<b>Income:</b> $" . formatNumber($income) . "<br/>";
+$Page['contents'] .= "<b>Expense:</b> $" . formatNumber($expense) . "<br/>";
 
 $Page['contents'] .= "<code>" . htmlentities($query) . "</code><br/>";
 
