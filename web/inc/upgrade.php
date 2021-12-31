@@ -47,6 +47,22 @@ if ($highestversion < "0002") {
 	$highestversion = "0002";
 }
 
+if ($highestversion < "0003") {
+	// Upgrade to version 0003
+	query("BEGIN TRANSACTION");
+
+	query("ALTER TABLE txns add lastmodified INTEGER");
+	query("CREATE INDEX lastmodified on txns(lastmodified)");
+
+	query("update txns set lastmodified=" . time());
+
+	query("update txns set ord=10*ord");
+
+	query("COMMIT");
+
+	$highestversion = "0004";
+}
+
 if ($highestversion < $sysversion) {
 	die("Error while upgrading system");
 }

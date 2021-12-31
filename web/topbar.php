@@ -184,6 +184,9 @@ $Page['contents'] .= '
 <a class="btn btn-primary" href="balance_sheet.php' . $urlSuffix . '">
     <i class="fas fa-file-invoice-dollar"></i> BSheet
 </a>
+<a class="btn btn-primary" href="lastmod.php">
+    <i class="fas fa-history"></i> LastMod
+</a>
 ';
 
 // Add filters

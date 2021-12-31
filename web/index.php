@@ -41,7 +41,7 @@ if ($todo == 'addtxn') {
 
         $max = $max + 1;
 
-        $sql = "insert into txns(entity, account, status, target, description, amount, date, ord, notes, url) values (" .
+        $sql = "insert into txns(entity, account, status, target, description, amount, date, ord, notes, url, lastmodified) values (" .
             "'" . se($newEntity) . "'," .
             "'" . se($newAccount) . "'," .
             "'" . se($newStatus) . "'," .
@@ -51,7 +51,8 @@ if ($todo == 'addtxn') {
             "$date," .
             "$max," .
             "'" . se($newNotes) . "'," .
-            "'" . se($newURL) . "'" .
+            "'" . se($newURL) . "'," .
+            "'" . time() . "'" .
             ")";
 
         query($sql);
@@ -64,6 +65,7 @@ if ($todo == 'addtxn') {
 
 if ($todo == 'updatetxn') {
     $newKey = strtoupper(trim(filter_input(INPUT_POST, "key")));
+    $oldRow = query_row("select * from txns where key=$newKey limit 1");
     $newEntity = strtoupper(trim(filter_input(INPUT_POST, "entity")));
     $newAccount = strtoupper(trim(filter_input(INPUT_POST, "account")));
     $newStatus = strtoupper(trim(filter_input(INPUT_POST, "status")));
@@ -89,12 +91,15 @@ if ($todo == 'updatetxn') {
         "date = $date," .
         "ord = $newOrd," .
         "notes = '" . se($newNotes) . "'," .
+        "lastmodified = " . time() . "," .
         "url = '" . se($newURL) . "'" .
         " where key = $newKey";
 
     query($sql);
 
     updateBalances($newEntity, $newAccount, $date);
+    renumber($newEntity, $newAccount, $date);
+    renumber($newEntity, $newAccount, $oldRow['date']);
 }
 
 $Page['title'] = "Multidate";
@@ -134,8 +139,7 @@ $Page['contents'] .= '
     <tr class="thead-dark">
         <th>Operations</th>
         <th>Key</th>
-        <th>DOM</th>
-        <th>ORDER</th>';
+        <th>DOM-ORD</th>';
 
 if ($entity == null) $Page['contents'] .= '
         <th>Entity</th>
@@ -197,9 +201,8 @@ while ($row = $result->fetchArray()) {
                     <button type='submit' onclick=\"return confirm('Are you sure?')\"><i class=\"fas fa-trash-alt\"></i></button>
                 </form>
             </td>";
-    $Page['contents'] .= "<td $editCode>" . $row['key'] . "</td>";
-    $Page['contents'] .= "<td $editCode>" . date("d", $row['date']) . "</td>";
-    $Page['contents'] .= "<td $editCode>" . $row['ord'] . "</td>";
+    $Page['contents'] .= "<td $editCode>" . $row['key'] . "</td>";        
+    $Page['contents'] .= "<td $editCode>" . date("d", $row['date']) . "-$row[ord]</td>";
 
     if ($entity == null) $Page['contents'] .= "<td $editCode>" . htmlentities($row['entity']) . '</td>';
 

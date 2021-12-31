@@ -21,9 +21,10 @@ try {
 $queries = 0;
 $debug = filter_input(INPUT_GET, 'debug');
 $totalQueryTime = 0;
+$sqlLog = "";
 function query($query, $DIE = TRUE)
 {
-    global $db, $queries, $debug, $totalQueryTime;
+    global $db, $queries, $debug, $totalQueryTime, $sqlLog;
 
     $queries++;
 
@@ -31,6 +32,7 @@ function query($query, $DIE = TRUE)
 
     if ($debug == '1') $totalTime = -microtime(true);
 
+    $sqlLog .= $query . "<br/>";
     $result = $db->query($query);
 
     if ($debug == '1') {
@@ -49,7 +51,7 @@ function query($query, $DIE = TRUE)
         http_response_code(500);
         echo "<pre>";
         print_r(debug_backtrace());
-        die("SQLite ERROR: " . $db->lastErrorMsg() . " SQL is: " . $query);
+        die("SQLite ERROR: " . $db->lastErrorMsg() . " SQL is: " . $query."<br/>".$sqlLog);
     } else {
         return false;
     }
@@ -98,7 +100,7 @@ function setvar($varname, $value)
 }
 
 // Check the db version
-$sysversion = "0002";
+$sysversion = "0004";
 $dbver = getVar("sysversion");
 if ($dbver === FALSE) {
     $dbver = "0000";

@@ -83,6 +83,26 @@ function updateBalances($entity, $account, $date)
     query("commit");
 }
 
+function renumber($entity, $account, $date)
+{
+    // Recompute the whole thing
+    // TODO: Optimize using the date
+    $result = query("select key from txns where entity='" . se($entity)
+        . "' and account='" . se($account) . "' and date=$date order by ord asc");
+
+    $keys = [];
+    while ($row = $result->fetchArray()) $keys[] = $row['key'];
+
+    query("begin transaction");
+    $ord = 10;
+    foreach ($keys as $key) {
+        $updateSql = "update txns set ord=$ord where key = $key";
+        query($updateSql);
+        $ord += 10;
+    }
+    query("commit");
+}
+
 function formatNumber($number)
 {
     $string = sprintf("% 10s", number_format($number, 2, ".", ","));
