@@ -15,6 +15,18 @@ $stringFilter = filter_input(INPUT_GET, 'filter');
 $start = date("Y-m-d", $startDate);
 $end = date("Y-m-d", $endDate);
 
+$minValue = filter_input(INPUT_GET, 'min');
+$maxValue = filter_input(INPUT_GET, 'max');
+
+$minValue = ($minValue + 1) - 1;
+$maxValue = ($maxValue + 1) - 1;
+
+if ($minValue == $maxValue && $minValue == 0) {
+  $minValue = -9e9;
+  $maxValue = 9e9;
+}
+
+
 // Add transaction button
 
 $allEntities = getEntities();
@@ -61,6 +73,8 @@ if (strlen($stringFilter) > 0) {
   $filter .= " (description like '%" . se($stringFilter) . "%' COLLATE NOCASE or " .
     "target like '%" . se($stringFilter) . "%' COLLATE NOCASE) ";
 }
+
+$filter .= " and amount > $minValue and amount < $maxValue ";
 
 if ($filter != "") $filter = " where $filter ";
 if ($datesFilter != "") $datesFilter = " where $datesFilter ";
@@ -147,7 +161,7 @@ while ($row = $res->fetchArray()) {
   </a>  $row[title] <br/>";
 }
 
-$todoList.="<hr/>";
+$todoList .= "<hr/>";
 
 $res = query("select * from todo where status is not null");
 
@@ -210,6 +224,12 @@ $Page['contents'] .= "
             
             <b>End:</b> 
             <input type='date' name='end' value='$end' autocomplete='off'>
+
+            <b>Min:</b> 
+            <input type='text' name='min' value='$minValue' autocomplete='off'>
+            
+            <b>Max:</b> 
+            <input type='text' name='max' value='$maxValue' autocomplete='off'>
             
             <b>Filter:</b> 
             <input type='text' name='filter' value='" . htmlentities($stringFilter) . "' autocomplete='off'>
