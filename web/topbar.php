@@ -1,6 +1,7 @@
 <?php
 
 $entity = filter_input(INPUT_GET, 'entity');
+$entityaccount = filter_input(INPUT_GET, 'entityaccount');
 $account = filter_input(INPUT_GET, 'account');
 $page = filter_input(INPUT_GET, 'page');
 $start = filter_input(INPUT_GET, 'start');
@@ -34,6 +35,15 @@ $allEntitiesOptions = implode("</option><option>", $allEntities);
 
 $allAccounts = getAccounts($entity);
 $allAccountsOptions = implode("</option><option>", $allAccounts);
+
+sort($allAccounts);
+sort($allEntities);
+$entitiesAccounts = [];
+foreach ($allEntities as $entity)
+  foreach ($allAccounts as $account) {
+    $entitiesAccounts[] = $entity . ":" . $account;
+  }
+$allEntitiesAccountsOptions = implode("</option><option>", $entitiesAccounts);
 
 $allStatuses = getAllStatuses();
 $allStatusOptions = implode("</option><option>", $allStatuses);
@@ -206,6 +216,13 @@ $Page['contents'] .= '
 // Add filters
 $Page['contents'] .= "
 <form method='get' class='top_bar_form' style='float:right;font-size:0.7em;'>
+
+            <b>Entity/Account:</b> <input type='text' list='entityaccountoptions1' name='entity' value='$entityaccount' autocomplete='off'/>
+
+            <datalist id='entityaccountoptions1'>
+              <option>$allEntitiesAccountsOptions</option>
+            </datalist>
+
             <b>Entity:</b> <input type='text' list='entityoptions1' name='entity' value='$entity' autocomplete='off'/>
                                 
             <datalist id='entityoptions1'>
@@ -214,7 +231,7 @@ $Page['contents'] .= "
             
             <b>Account:</b> 
             <input type='text' list='accountsoptions1' name='account' value='$account' autocomplete='off'>
-            
+
             <datalist id='accountsoptions1'>
                 <option>$allAccountsOptions</option>
             </datalist>
