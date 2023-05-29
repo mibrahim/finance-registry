@@ -1,6 +1,7 @@
 <?php
 require_once dirname(__FILE__) . "/inc/conf.php";
 require_once dirname(__FILE__) . "/inc/utils.php";
+require_once dirname(__FILE__) . "/inc/processposts.php";
 
 include "topbar.php";
 
