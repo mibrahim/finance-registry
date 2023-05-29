@@ -1,8 +1,14 @@
 <?php
 
-$entity = filter_input(INPUT_GET, 'entity');
 $entityaccount = filter_input(INPUT_GET, 'entityaccount');
-$account = filter_input(INPUT_GET, 'account');
+$entity = null;
+$account = null;
+if ($entityaccount != null) {
+  $entityaccountparts = explode(":", $entityaccount);
+  $entity = $entityaccountparts[0];
+  $account = $entityaccountparts[1];
+}
+
 $page = filter_input(INPUT_GET, 'page');
 $start = filter_input(INPUT_GET, 'start');
 $startDate = 0;
@@ -217,39 +223,26 @@ $Page['contents'] .= '
 $Page['contents'] .= "
 <form method='get' class='top_bar_form' style='float:right;font-size:0.7em;'>
 
-            <b>Entity/Account:</b> <input type='text' list='entityaccountoptions1' name='entity' value='$entityaccount' autocomplete='off'/>
+            <b>EA:</b> <input type='text' list='entityaccountoptions1' name='entityaccount' value='$entityaccount' autocomplete='off'/>
 
             <datalist id='entityaccountoptions1'>
               <option>$allEntitiesAccountsOptions</option>
             </datalist>
 
-            <b>Entity:</b> <input type='text' list='entityoptions1' name='entity' value='$entity' autocomplete='off'/>
-                                
-            <datalist id='entityoptions1'>
-                <option>$allEntitiesOptions</option>
-            </datalist>                    
+            <b>ST:</b> 
+            <input style='width:84px' type='date' name='start' value='$start' autocomplete='off'>
             
-            <b>Account:</b> 
-            <input type='text' list='accountsoptions1' name='account' value='$account' autocomplete='off'>
+            <b>EN:</b> 
+            <input style='width:84px' type='date' name='end' value='$end' autocomplete='off'>
 
-            <datalist id='accountsoptions1'>
-                <option>$allAccountsOptions</option>
-            </datalist>
-
-            <b>Start:</b> 
-            <input type='date' name='start' value='$start' autocomplete='off'>
+            <b>MN:</b> 
+            <input style='width:84px' type='text' name='min' value='$minValue' autocomplete='off'>
             
-            <b>End:</b> 
-            <input type='date' name='end' value='$end' autocomplete='off'>
-
-            <b>Min:</b> 
-            <input type='text' name='min' value='$minValue' autocomplete='off'>
-            
-            <b>Max:</b> 
-            <input type='text' name='max' value='$maxValue' autocomplete='off'>
+            <b>MX:</b> 
+            <input style='width:84px' type='text' name='max' value='$maxValue' autocomplete='off'>
             
             <b>Filter:</b> 
-            <input type='text' name='filter' value='" . htmlentities($stringFilter) . "' autocomplete='off'>
+            <input style='width:84px' type='text' name='filter' value='" . htmlentities($stringFilter) . "' autocomplete='off'>
             
             <button type='submit' class='btn btn-success'>
               <i class='fa fa-arrow-circle-right fa-lg'></i>
