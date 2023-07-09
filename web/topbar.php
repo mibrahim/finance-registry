@@ -123,7 +123,7 @@ $monthAfterUrl = "?entity=" . urlencode($entity) . "&account=" . urlencode($acco
 $currentStartMonth = date("M-01-Y", $startDate);
 $currentEndMonth = date("M-01-Y", $endDate);
 
-$currentMonthStart = date("M-01-Y", time(0));
+$currentMonthStart = date("M-01-Y", time());
 $currentMonthEnd = date("M-d-Y", strtotime(
   "-1 day",
   strtotime(
