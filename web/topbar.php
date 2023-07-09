@@ -335,7 +335,7 @@ $Page['contents'] .= '
 
             <b>Description:</b> <input id="newdescription" class="form-control" type="text" name="description">
 
-            <b>Date:</b> <input id="newdate" class="form-control" type="date" name="date">
+            <b>Date:</b> <input id="newdate" class="form-control" type="date" value="' . $start . '" name="date">
 
             <b>Notes:</b> <input id="newnotes" class="form-control" type="text" name="notes">
 
