@@ -73,7 +73,9 @@ function updateBalances($entity, $account, $date)
     // Select the first transaction before that date
     $lastRow = query_row("select running_balance from txns where entity='" . se($entity) . "' and date<$date and account='" . se($account) . "' order by date desc, ord desc limit 1");
 
-    $balance = $lastRow['running_balance'];
+    $balance = 0;
+    if ($lastRow != false)
+        $balance = $lastRow['running_balance'];
 
     beginTransaction();
     while ($row = $result->fetchArray(SQLITE3_ASSOC)) {
