@@ -95,7 +95,7 @@ while ($row = $result->fetchArray()) {
 
     $Page['contents'] .= "<tr $rowColor>";
     $Page['contents'] .= "
-            <td class='reduced_padding fixedfont'>
+            <td class='reduced_padding fixedfont' id='txn$key'>
                 <button onclick=\"duplicate($key)\" data-toggle=\"modal\" data-target=\"#addNewModal\"><i class=\"fas fa-copy\"></i></button>
                 <form method='post' style='display:inline;'>
                     <input type='hidden' name='todo' value='deletetxn'>

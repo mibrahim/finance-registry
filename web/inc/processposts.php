@@ -31,6 +31,7 @@ if ($todo == 'addtxn') {
     $date = strtotime($newDate);
 
     // Find the max ord in that day
+    $firstRowKey = null;
     for ($reps = 0; $reps != $numberOfTimes; $reps++) {
         $row = query_row("select max(ord) as ord from txns where date=$date");
 
@@ -53,13 +54,22 @@ if ($todo == 'addtxn') {
             "'" . time() . "'" .
             ")";
 
-        query($sql);
+        $result = query($sql);
+
+        if ($firstRowKey == null) {
+            // Get last inserted row key
+            $lastRow = query_row("select max(key) as key from txns");
+            $firstRowKey = $lastRow['key'];
+        }
         updateBalances($newEntity, $newAccount, $date);
 
         // Update date
         $date = strtotime("+$everyMonths months", strtotime("+$everyWeeks weeks", $date));
         renumber($newEntity, $newAccount, $date);
     }
+
+    // Jump to the first row
+    $Page['contents'] .= "<script>jump('txn'+$firstRowKey);</script>";
 }
 
 if ($todo == 'updatetxn') {
@@ -81,7 +91,7 @@ if ($todo == 'updatetxn') {
     $date = strtotime($newDate);
 
     $recalcDate = $oldRow['date'];
-    if ($date<$recalcDate) $recalcDate = $date;
+    if ($date < $recalcDate) $recalcDate = $date;
 
     $sql = "update txns set " .
         "entity = '" . se($newEntity) . "'," .
@@ -98,6 +108,8 @@ if ($todo == 'updatetxn') {
         " where key = $newKey";
 
     query($sql);
+
+    $Page['contents'] .= "<script>jump('txn'+$newKey);</script>";
 
     updateBalances($newEntity, $newAccount, $recalcDate);
     renumber($newEntity, $newAccount, $date);

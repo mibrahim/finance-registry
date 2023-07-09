@@ -37,3 +37,11 @@ function duplicate(key) {
         $('#newurl').val(obj.url);
     });
 }
+
+function jump(id) {
+    window.addEventListener("load", function () {
+        console.log("Jumpting to " + id);
+        var top = document.getElementById(id).offsetTop; //Getting Y of target element
+        window.scrollTo(0, top);                        //Go there directly or some transition
+    });
+}
