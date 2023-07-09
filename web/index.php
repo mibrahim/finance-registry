@@ -40,8 +40,8 @@ $Page['contents'] .= '
 <thead>
     <tr class="thead-dark">
         <th>Operations</th>
-        <th>Key</th>
-        <th>DOM-ORD</th>';
+        <th>DOM</th>
+        <th>#</th>';
 
 if ($entity == null) $Page['contents'] .= '
         <th>Entity</th>
@@ -103,8 +103,8 @@ while ($row = $result->fetchArray()) {
                     <button type='submit' onclick=\"return confirm('Are you sure?')\"><i class=\"fas fa-trash-alt\"></i></button>
                 </form>
             </td>";
-    $Page['contents'] .= "<td $editCode>" . $row['key'] . "</td>";        
-    $Page['contents'] .= "<td $editCode>" . date("d", $row['date']) . "-$row[ord]</td>";
+    $Page['contents'] .= "<td $editCode>" . date("d", $row['date']) . "</td>";
+    $Page['contents'] .= "<td $editCode>$row[ord]</td>";
 
     if ($entity == null) $Page['contents'] .= "<td $editCode>" . htmlentities($row['entity']) . '</td>';
 

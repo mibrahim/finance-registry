@@ -33,22 +33,20 @@ if ($minValue == $maxValue && $minValue == 0) {
   $maxValue = 9e9;
 }
 
-
 // Add transaction button
-
 $allEntities = getEntities();
+sort($allEntities);
 $allEntitiesOptions = implode("</option><option>", $allEntities);
 
 $allAccounts = getAccounts($entity);
+sort($allAccounts);
 $allAccountsOptions = implode("</option><option>", $allAccounts);
 
-sort($allAccounts);
-sort($allEntities);
 $entitiesAccounts = [];
-foreach ($allEntities as $entity)
-  foreach ($allAccounts as $account) {
-    $entitiesAccounts[] = $entity . ":" . $account;
-  }
+$res = query("select entity, account from txns group by entity, account order by entity, account");
+while ($row = $res->fetchArray()) {
+  $entitiesAccounts[] = $row['entity'] . ":" . $row['account'];
+}
 $allEntitiesAccountsOptions = implode("</option><option>", $entitiesAccounts);
 
 $allStatuses = getAllStatuses();
