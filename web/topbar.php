@@ -302,55 +302,91 @@ $Page['contents'] .= '
       <form method="post">
           <div class="modal-body">
             <input type="hidden" name="todo" value="addtxn"/>
-
-            <b>Entity:</b> <input id="newentity" class="form-control" type="text"
+            <table>
+            <tr>
+              <td><b>Entity:</b></td>
+              <td width="80px"><input id="newentity" class="form-control" type="text"
                                 list="entityoptions" name="entity" value="' . $entity . '" autocomplete="off">
                                 
             <datalist id="entityoptions">
                 <option>' . $allEntitiesOptions . '</option>
-            </datalist>                    
-            
-            <b>Account:</b> <input id="newaccount" class="form-control" type="text"
+            </datalist>
+            </td>
+            <td><b>Account:</b></td>
+            <td><input id="newaccount" class="form-control" type="text"
                                 list="accountsoptions" name="account" value="' . $account . '" autocomplete="off">
             
             <datalist id="accountsoptions">
                 <option>' . $allAccountsOptions . '</option>
             </datalist>                    
-            
-            <b>Status:</b> <input id="newstatus" class="form-control" type="text"
+            </td>
+            </tr>
+
+            <tr>
+            <td><b>Status:</b></td>
+            <td><input id="newstatus" class="form-control" type="text"
                                 list="statusesoptions" name="status" autocomplete="off">
             
             <datalist id="statusesoptions">
                 <option>' . $allStatusOptions . '</option>
             </datalist>                    
-            
-            <b>Target:</b> <input id="newtarget" class="form-control" type="text"
+            </td>
+            <td><b>Target:</b></td>
+            <td><input id="newtarget" class="form-control" type="text"
                                 list="targetsoptions" name="target" autocomplete="off">
             
             <datalist id="targetsoptions">
                 <option>' . $allTargetsOptions . '</option>
             </datalist>                    
-            
-            <b>Amount:</b> <input id="newamount" class="form-control" type="text" name="amount">
+            </td>
+            </tr>
 
-            <b>Description:</b> <input id="newdescription" class="form-control" type="text" name="description">
+            <tr>
+            <td><b>Amount:</b></td>
+            <td><input id="newamount" class="form-control" type="text" name="amount">
+            </td>
+            <td><b>Description:</b></td>
+            <td><input id="newdescription" class="form-control" type="text" name="description">
+            </td>
+            </tr>
 
-            <b>Date:</b> <input id="newdate" class="form-control" type="date" value="' . $start . '" name="date">
+            <tr>
+            <td><b>Date:</b></td>
+            <td><input id="newdate" class="form-control" type="date" value="' . $start . '" name="date">
+            </td>
+            </tr>
 
-            <b>Notes:</b> <input id="newnotes" class="form-control" type="text" name="notes">
+            <tr>
+            <td><b>Notes:</b></td>
+            <td><input id="newnotes" class="form-control" type="text" name="notes">
+            </td>
+            <td><b>URL:</b></td>
+            <td><input id="newurl" class="form-control" type="text" name="url">
+            </td>
+            </tr>
 
-            <b>URL:</b> <input id="newurl" class="form-control" type="text" name="url">
-            
-            <h4>Repeat:</h4>
-            <b>Number of times:</b>
-             <input id="numberoftimes" class="form-control" type="number" value="1" name="numberoftimes">
+            <tr>
+            <td><h4>Repeat:</h4></td>
+            </tr>
 
-            <b>Every how many weeks:</b>
-             <input id="everyweeks" class="form-control" type="number"  value="0" name="everyweeks">
+            <tr>
+            <td><b># times:</b></td>
+            <td><input id="numberoftimes" class="form-control" type="number" value="1" name="numberoftimes">
+            </td>
+            </tr>
 
-            <b>Every how many months:</b>
-             <input id="everymonths" class="form-control" type="number"  value="0" name="everymonths">
+            <tr>
+            <td><b>Per weeks:</b></td>
+            <td><input id="everyweeks" class="form-control" type="number"  value="0" name="everyweeks">
+            </td>
+            </tr>
 
+            <tr>
+            <td><b>Per mon:</b></td>
+            <td><input id="everymonths" class="form-control" type="number"  value="0" name="everymonths"></td>
+            </tr>
+
+            </table>
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
