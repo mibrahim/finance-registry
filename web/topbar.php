@@ -331,8 +331,10 @@ $Page['contents'] .= '
                 <option>' . $allStatusOptions . '</option>
             </datalist>                    
             </td>
+            </tr>
+            <tr>
             <td><b>Target:</b></td>
-            <td><input id="newtarget" class="form-control" type="text"
+            <td colspan="3"><input id="newtarget" class="form-control" type="text"
                                 list="targetsoptions" name="target" autocomplete="off">
             
             <datalist id="targetsoptions">
