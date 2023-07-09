@@ -290,7 +290,7 @@ $Page['contents'] .= '
 </div>
 
 <div class="modal fade" id="addNewModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog" role="document">
+  <div class="modal-dialog modal-lg" role="document">
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title" id="exampleModalLabel">Add Transaction</h5>
@@ -305,7 +305,7 @@ $Page['contents'] .= '
             <table>
             <tr>
               <td><b>Entity:</b></td>
-              <td width="80px"><input id="newentity" class="form-control" type="text"
+              <td><input id="newentity" class="form-control" type="text"
                                 list="entityoptions" name="entity" value="' . $entity . '" autocomplete="off">
                                 
             <datalist id="entityoptions">
