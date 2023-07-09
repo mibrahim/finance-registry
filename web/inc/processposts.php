@@ -80,6 +80,9 @@ if ($todo == 'updatetxn') {
 
     $date = strtotime($newDate);
 
+    $recalcDate = $oldRow['date'];
+    if ($date<$recalcDate) $recalcDate = $date;
+
     $sql = "update txns set " .
         "entity = '" . se($newEntity) . "'," .
         "account = '" . se($newAccount) . "'," .
@@ -96,7 +99,7 @@ if ($todo == 'updatetxn') {
 
     query($sql);
 
-    updateBalances($newEntity, $newAccount, $date);
+    updateBalances($newEntity, $newAccount, $recalcDate);
     renumber($newEntity, $newAccount, $date);
     renumber($newEntity, $newAccount, $oldRow['date']);
 }
