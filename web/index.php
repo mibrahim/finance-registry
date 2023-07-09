@@ -16,7 +16,7 @@ $endPage = ($page + 1) * 100;
 if ($endPage > $count_rows['count']) $endPage = $count_rows['count'];
 
 $Page['contents'] .= "<br/><br/>$count_rows[count] rows. Displaying " . ($page * 100 + 1) . " to $endPage<br/>";
-$pageUrl = "index.php?entity=" . urlencode($entity) . "&account=" . urlencode($account) .
+$pageUrl = "index.php?entityaccount=" . urlencode("$entity:$account") .
     "&start=$start&end=$end&filter=" . urlencode($stringFilter) . "&page=";
 
 $pages = ceil($count_rows['count'] / 100);

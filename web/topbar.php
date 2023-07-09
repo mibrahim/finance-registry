@@ -55,7 +55,7 @@ $allStatusOptions = implode("</option><option>", $allStatuses);
 $allTargets = getAllTargets($entity);
 $allTargetsOptions = implode("</option><option>", $allTargets);
 
-$urlSuffix = "?entity=" . urlencode($entity) . "&account=" . urlencode($account) .
+$urlSuffix = "?entityaccount=" . urlencode("$entity:$account") .
   "&start=$start&end=$end&filter=" . urlencode($stringFilter);
 
 if ($page == null) $page = 0;
@@ -98,7 +98,7 @@ $minMaxDatesRow = query_row("select min(date) as mindate, max(date) as maxdate f
 
 // Compile quick buttons
 $date = $minMaxDatesRow['mindate'];
-$url = "?entity=" . urlencode($entity) . "&account=" . urlencode($account);
+$url = "?entityaccount=" . urlencode("$entity:$account");
 $buttons = "<table style='font-family:Monospace;'><tr><td colspan='5' style='text-align: center;'><a href='$url'>Reset</a></td></tr>";
 $counter = 0;
 
@@ -107,7 +107,7 @@ $monthBeforeStartTimeStamp = strtotime($monthBeforeStartDate);
 $monthBeforeEndDate = date("M-d-Y", strtotime("-1 day", strtotime("+1 month", $monthBeforeStartTimeStamp)));
 $monthBeforeEndTimeStamp = strtotime($monthBeforeEndDate);
 
-$monthBeforeUrl = "?entity=" . urlencode($entity) . "&account=" . urlencode($account) .
+$monthBeforeUrl = "?entityaccount=" . urlencode("$entity:$account") .
   "&start=$monthBeforeStartDate&end=$monthBeforeEndDate&filter=" . urlencode($stringFilter);
 
 $monthAfterStartDate = date("M-01-Y", strtotime("+1 month", $startDate));
@@ -115,7 +115,7 @@ $monthAfterStartTimeStamp = strtotime($monthAfterStartDate);
 $monthAfterEndDate = date("M-d-Y", strtotime("-1 day", strtotime("+1 month", $monthAfterStartTimeStamp)));
 $monthAfterEndTimeStamp = strtotime($monthAfterEndDate);
 
-$monthAfterUrl = "?entity=" . urlencode($entity) . "&account=" . urlencode($account) .
+$monthAfterUrl = "?entityaccount=" . urlencode("$entity:$account") .
   "&start=$monthAfterStartDate&end=$monthAfterEndDate&filter=" . urlencode($stringFilter);
 
 $currentStartMonth = date("M-01-Y", $startDate);
@@ -142,7 +142,7 @@ while ($date <= $minMaxDatesRow['maxdate']) {
     $style = "style='background-color: #DDD;text-align: center;'";
   }
 
-  $url = "?entity=" . urlencode($entity) . "&account=" . urlencode($account) .
+  $url = "?entityaccount=" . urlencode("$entity:$account") .
     "&start=$currentDateStart&end=$currentDateEnd&filter=" . urlencode($stringFilter);
 
   $text = date("My", $monthStartTimeStamp);
@@ -159,7 +159,7 @@ $buttons .= "</tr></table>";
 //
 // http://localhost:8123/?entity=&account=&start=Jan-01-2018&end=Jan-31-2018&filter=
 //
-$currentMonthUrl = "?entity=$entity&account=$account&start=$currentMonthStart&end=$currentMonthEnd&filter=";
+$currentMonthUrl = "?entityaccount=$entity:$account&start=$currentMonthStart&end=$currentMonthEnd&filter=";
 
 if (isset($_POST['todo']) && $_POST['todo'] == 'addnewtodo') {
   query("insert into todo(title) values ('" . se($_POST['todoitem']) . "')");
