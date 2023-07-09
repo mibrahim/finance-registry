@@ -1,4 +1,7 @@
 <?php
+
+beginTransaction();
+
 $todo = filter_input(INPUT_POST, "todo");
 if ($todo == 'deletetxn') {
     $key = strtoupper(trim(filter_input(INPUT_POST, "key")));
@@ -55,6 +58,7 @@ if ($todo == 'addtxn') {
 
         // Update date
         $date = strtotime("+$everyMonths months", strtotime("+$everyWeeks weeks", $date));
+        renumber($newEntity, $newAccount, $date);
     }
 }
 
@@ -96,3 +100,5 @@ if ($todo == 'updatetxn') {
     renumber($newEntity, $newAccount, $date);
     renumber($newEntity, $newAccount, $oldRow['date']);
 }
+
+commitTransaction();

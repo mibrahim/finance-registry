@@ -66,12 +66,16 @@ function updateBalances($entity, $account, $date)
 {
     // Recompute the whole thing
     // TODO: Optimize using the date
+
     $result = query("select key, amount, running_balance from txns where entity='" . se($entity)
-        . "' and account='" . se($account) . "' order by date, ord asc");
+        . "' and date>=$date and account='" . se($account) . "' order by date, ord asc");
 
-    $balance = 0;
+    // Select the first transaction before that date
+    $lastRow = query_row("select running_balance from txns where entity='" . se($entity) . "' and date<$date and account='" . se($account) . "' order by date desc, ord desc limit 1");
 
-    query("begin transaction");
+    $balance = $lastRow['running_balance'];
+
+    beginTransaction();
     while ($row = $result->fetchArray(SQLITE3_ASSOC)) {
         $balance += $row['amount'];
 
@@ -80,7 +84,7 @@ function updateBalances($entity, $account, $date)
             query($updateSql);
         }
     }
-    query("commit");
+    commitTransaction();
 }
 
 function renumber($entity, $account, $date)
@@ -93,14 +97,12 @@ function renumber($entity, $account, $date)
     $keys = [];
     while ($row = $result->fetchArray()) $keys[] = $row['key'];
 
-    query("begin transaction");
     $ord = 10;
     foreach ($keys as $key) {
         $updateSql = "update txns set ord=$ord where key = $key";
         query($updateSql);
         $ord += 10;
     }
-    query("commit");
 }
 
 function formatNumber($number)

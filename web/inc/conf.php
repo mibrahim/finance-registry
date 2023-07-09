@@ -51,7 +51,7 @@ function query($query, $DIE = TRUE)
         http_response_code(500);
         echo "<pre>";
         print_r(debug_backtrace());
-        die("SQLite ERROR: " . $db->lastErrorMsg() . " SQL is: " . $query."<br/>".$sqlLog);
+        die("SQLite ERROR: " . $db->lastErrorMsg() . " SQL is: " . $query . "<br/>" . $sqlLog);
     } else {
         return false;
     }
@@ -66,6 +66,27 @@ function query_row($query, $DIE = TRUE)
     }
 
     return $res->fetchArray(SQLITE3_ASSOC);
+}
+
+$txn = false;
+function beginTransaction()
+{
+    global $db, $txn;
+
+    if (!$txn) {
+        $db->exec('BEGIN TRANSACTION');
+        $txn = true;
+    }
+}
+
+function commitTransaction()
+{
+    global $db, $txn;
+
+    if ($txn) {
+        $db->exec('COMMIT TRANSACTION');
+        $txn = false;
+    }
 }
 
 function se($s)
